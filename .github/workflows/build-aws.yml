@@ -1,0 +1,58 @@
+name: "Terraform"
+
+on:
+  # workflow_dispatch:
+  #   inputs:
+  #     terraform-action:
+  #       description: "Please select your option"
+  #       default: "apply"
+  #       type: choice
+  #       options:
+  #       - apply
+  #       - destroy
+  #       required: true
+  push:
+    branches: ["main"]
+
+jobs:
+  terraform:
+    name: "Terraform"
+    env:
+      # AWS secrets
+      AWS_ACCESS_KEY_ID: ${{ secrets.SC_AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{secrets.SC_AWS_SECRET_ACCESS_KEY }}
+      AWS_REGION: ${{ secrets.SC_AWS_REGION }}
+
+    runs-on: ubuntu-latest
+    # Checkout the repository to the GitHub Actions runner
+    steps:
+      - name: "checkout"
+        uses: "actions/checkout@v3"
+
+      - name: Setup Terraform with specified version on the runner
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.3.0
+      # - name: Terraform destroy
+      #   # if: ${{ github.event.inputs.terraform-action == 'destroy' }}
+      #   run: |
+      #     terraform destroy
+      #     rm -rf .terraform* terraform.tfstate*
+
+      - name: Terraform init
+        # if: ${{ github.event.inputs.terraform-action == 'apply' }}
+        run: terraform init
+
+      - name: Terraform validate
+        # if: ${{ github.event.inputs.terraform-action == 'apply' }}
+        run: terraform validate
+
+      - name: Terraform plan
+        # if: ${{ github.event.inputs.terraform-action == 'apply' }}
+        run: terraform plan
+
+      - name: Terraform apply
+        # if: ${{ github.event.inputs.terraform-action == 'apply' }}
+        run: terraform apply -auto-approve
+
+
