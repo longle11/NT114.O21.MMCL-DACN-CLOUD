@@ -57,16 +57,15 @@ resource "aws_eks_node_group" "eks_nodegroup_public" {
   instance_types = [var.aws_instance_type]
   capacity_type = "ON_DEMAND"
   disk_size = 20
-  
 
   remote_access {
     ec2_ssh_key = var.aws_key_pair
   }
 
   scaling_config {
-    desired_size = 1
+    desired_size = 4
     min_size     = 1    
-    max_size     = 2
+    max_size     = 4
   }
 
   # Desired max percentage of unavailable worker nodes during node group update.
