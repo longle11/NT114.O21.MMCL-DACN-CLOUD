@@ -73,13 +73,13 @@ variable "vpc_single_nat_gateway" {
 variable "eks_cluster_name" {
   description = "EKS Cluster Name"
   type = string
-  default = "eksclusterproject"
+  default = "ekscluster"
 }
 
 variable "eks_service_ipv4_cidr" {
   description = "The CIDR block to assign Kubernetes pod and service IP addresses"
   type = string
-  default = "192.168.30.0/24"
+  default = "192.169.30.0/24"
 }
 
 # variable "eks_cluster_version" {
