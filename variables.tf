@@ -79,7 +79,7 @@ variable "eks_cluster_name" {
 variable "eks_service_ipv4_cidr" {
   description = "The CIDR block to assign Kubernetes pod and service IP addresses"
   type = string
-  default = "192.169.30.0/24"
+  default = "172.16.0.0/16"
 }
 
 # variable "eks_cluster_version" {
