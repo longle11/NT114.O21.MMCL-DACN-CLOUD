@@ -17,7 +17,7 @@ variable "aws_environment" {
 variable "aws_instance_type" {
   description = "Aws Instance Type"
   type = string
-  default = "t3.medium"
+  default = "t3.large"
 }
 
 variable "aws_key_pair" {
@@ -73,7 +73,7 @@ variable "vpc_single_nat_gateway" {
 variable "eks_cluster_name" {
   description = "EKS Cluster Name"
   type = string
-  default = "eksclusterproject"
+  default = "ekscluste1"
 }
 
 variable "eks_service_ipv4_cidr" {
