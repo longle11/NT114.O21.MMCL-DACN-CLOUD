@@ -73,7 +73,7 @@ variable "vpc_single_nat_gateway" {
 variable "eks_cluster_name" {
   description = "EKS Cluster Name"
   type = string
-  default = "ekscluster"
+  default = "eksclusterproject"
 }
 
 variable "eks_service_ipv4_cidr" {
