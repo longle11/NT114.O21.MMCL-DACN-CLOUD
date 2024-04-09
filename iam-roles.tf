@@ -1,6 +1,9 @@
 // iam role for eks cluster
 resource "aws_iam_role" "eks_cluster_role" {
   name = "${var.aws_environment}-eks-cluster-role"
+  lifecycle {
+    create_before_destroy = true
+  }
 
   assume_role_policy = <<POLICY
     {
@@ -32,6 +35,9 @@ resource "aws_iam_role_policy_attachment" "eks-AmazonEKSVPCResourceController" {
 // iam role for eks node group
 resource "aws_iam_role" "eks_nodegroup_role" {
   name = "${var.aws_environment}-eks-nodegroup-role"
+  lifecycle {
+    create_before_destroy = true
+  }
 
   assume_role_policy = jsonencode({
     Statement = [{
@@ -66,6 +72,9 @@ resource "aws_iam_role_policy_attachment" "eks-AmazonEC2ContainerRegistryReadOnl
 # EBS IAM Policy
 resource "aws_iam_policy" "ebs_iam_policy" {
   name        = "${var.aws_environment}-amazonEks-ebs-iam-policy"
+  lifecycle {
+    create_before_destroy = true
+  }
   path        = "/"
   policy = data.http.iam_policy.response_body
 }
@@ -73,6 +82,9 @@ resource "aws_iam_policy" "ebs_iam_policy" {
 # EBS IAM Role
 resource "aws_iam_role" "ebs_iam_role" {
   name = "${var.aws_environment}-amazonEks-ebs-iam-role"
+  lifecycle {
+    create_before_destroy = true
+  }
 
   # Terraform's "jsonencode" function converts a
   # Terraform expression result to valid JSON syntax.
