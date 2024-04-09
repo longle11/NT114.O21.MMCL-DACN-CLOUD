@@ -17,7 +17,7 @@ variable "aws_environment" {
 variable "aws_instance_type" {
   description = "Aws Instance Type"
   type = string
-  default = "t3.large"
+  default = "t3.medium"
 }
 
 variable "aws_key_pair" {
