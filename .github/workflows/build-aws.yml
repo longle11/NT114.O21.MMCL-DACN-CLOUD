@@ -39,17 +39,17 @@ jobs:
       #     terraform destroy
       #     rm -rf .terraform* terraform.tfstate*
 
-      - name: Terraform init
-        # if: ${{ github.event.inputs.terraform-action == 'apply' }}
-        run: terraform init
+      # - name: Terraform init
+      #   # if: ${{ github.event.inputs.terraform-action == 'apply' }}
+      #   run: terraform init
 
-      - name: Terraform validate
-        # if: ${{ github.event.inputs.terraform-action == 'apply' }}
-        run: terraform validate
+      # - name: Terraform validate
+      #   # if: ${{ github.event.inputs.terraform-action == 'apply' }}
+      #   run: terraform validate
 
-      - name: Terraform plan
-        # if: ${{ github.event.inputs.terraform-action == 'apply' }}
-        run: terraform plan
+      # - name: Terraform plan
+      #   # if: ${{ github.event.inputs.terraform-action == 'apply' }}
+      #   run: terraform plan
 
       - name: Terraform apply
         # if: ${{ github.event.inputs.terraform-action == 'apply' }}

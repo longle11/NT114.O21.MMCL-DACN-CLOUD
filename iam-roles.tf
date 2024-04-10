@@ -22,7 +22,8 @@ resource "aws_iam_role" "eks_cluster_role" {
 }
 
 resource "aws_iam_policy" "oidc_provider_policy" {
-  name = "oidc_provider_policy"
+  
+  name = "${var.aws_environment}-oidc_provider_policy"
   policy = <<EOF
     {
       "Version": "2012-10-17",
@@ -32,7 +33,8 @@ resource "aws_iam_policy" "oidc_provider_policy" {
           "Action": [
             "iam:GetOpenIDConnectProvider",
             "iam:DeleteOpenIDConnectProvider"
-          ]
+          ],
+          "Resource": "*"
         }
       ]
     }
