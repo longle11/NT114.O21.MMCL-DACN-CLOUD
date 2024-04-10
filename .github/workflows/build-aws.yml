@@ -33,11 +33,11 @@ jobs:
         uses: hashicorp/setup-terraform@v2
         with:
           terraform_version: 1.3.0
-      - name: Terraform destroy
-        # if: ${{ github.event.inputs.terraform-action == 'destroy' }}
-        run: |
-          terraform destroy
-          rm -rf .terraform* terraform.tfstate*
+      # - name: Terraform destroy
+      #   # if: ${{ github.event.inputs.terraform-action == 'destroy' }}
+      #   run: |
+      #     terraform destroy
+      #     rm -rf .terraform* terraform.tfstate*
 
       - name: Terraform init
         # if: ${{ github.event.inputs.terraform-action == 'apply' }}
