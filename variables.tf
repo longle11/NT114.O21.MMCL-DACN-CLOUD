@@ -30,7 +30,7 @@ variable "aws_key_pair" {
 variable "vpc_name" {
   description = "VPC Name"
   type = string
-  default = "vpc_pro"
+  default = "vpc_test"
 }
 
 variable "vpc_cidr" {
