@@ -21,6 +21,25 @@ resource "aws_iam_role" "eks_cluster_role" {
     POLICY
 }
 
+resource "aws_iam_policy" "oidc_provider_policy" {
+  name = "oidc_provider_policy"
+  policy = <<EOF
+    {
+      "Version": "2012-10-17",
+      "Statement": [
+        {
+          "Effect": "Allow",
+          "Action": [
+            "iam:GetOpenIDConnectProvider",
+            "iam:DeleteOpenIDConnectProvider"
+          ]
+        }
+      ]
+    }
+EOF
+}
+
+
 # Associate IAM Policy to IAM Role
 resource "aws_iam_role_policy_attachment" "eks-AmazonEKSClusterPolicy" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy"
@@ -68,7 +87,6 @@ resource "aws_iam_role_policy_attachment" "eks-AmazonEC2ContainerRegistryReadOnl
 # eksctl create iamidentitymapping --cluster myekscluster --arn arn:aws:iam::767397749712:user/cloud_user --group system:masters --username cloud_user
 
 
-
 # EBS IAM Policy
 resource "aws_iam_policy" "ebs_iam_policy" {
   name        = "${var.aws_environment}-amazonEks-ebs-iam-policy"
@@ -114,3 +132,8 @@ resource "aws_iam_role_policy_attachment" "ebs_csi_iam_role_policy_attach" {
   role       = aws_iam_role.ebs_iam_role.name
 }
 
+
+resource "aws_iam_role_policy_attachment" "user_policy_attachment" {
+  role       = aws_iam_role.eks_cluster_role.name
+  policy_arn = aws_iam_policy.oidc_provider_policy.arn # ARN của chính sách
+}
