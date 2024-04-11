@@ -1,7 +1,0 @@
-VPC created on Thu Apr 4 08:21:18 +07 2024 and VPC ID: vpc-0ef859f77922a25eb
-VPC created on Thu Apr 4 21:02:22 +07 2024 and VPC ID: vpc-0751a3c8c0e3c7e1a
-VPC created on Fri Apr 5 00:07:11 +07 2024 and VPC ID: vpc-0d10dc1d83cdbd480
-VPC created on Sat Apr 6 21:32:51 +07 2024 and VPC ID: vpc-02dba2c79a882d0a0
-VPC created on Sat Apr 6 21:48:41 +07 2024 and VPC ID: vpc-081b03d84eaa06d95
-VPC created on Sat Apr 6 22:05:28 +07 2024 and VPC ID: vpc-0987fe682a1432c1c
-VPC created on Sun Apr 7 23:04:17 +07 2024 and VPC ID: vpc-0325d66de0d2514e6
