@@ -12,7 +12,7 @@ resource "helm_release" "loadbalancer_controller" {
   name = "${var.aws_environment}-loadbalancer-controller"
 
   depends_on = [ aws_iam_role.lbc_iam_role ]
-  namespace = ["kube-system"]
+  namespace = "kube-system"
   repository = "https://aws.github.io/eks-charts"   //download helm chart
   chart      = "aws-load-balancer-controller"
 
