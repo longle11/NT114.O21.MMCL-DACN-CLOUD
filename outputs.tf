@@ -56,31 +56,31 @@ output "cluster_primary_security_group_id" {
 }
 
 # EKS Node Group Outputs - Public
-output "node_group_public_id" {
-  description = "Public Node Group ID"
-  value       = aws_eks_node_group.eks_nodegroup_public.id
+# output "node_group_public_id" {
+#   description = "Public Node Group ID"
+#   value       = aws_eks_node_group.eks_nodegroup_public.id
+# }
+
+# output "node_group_public_arn" {
+#   description = "Public Node Group ARN"
+#   value       = aws_eks_node_group.eks_nodegroup_public.arn
+# }
+
+#EKS Node Group Outputs - Private
+
+output "node_group_private_id" {
+  description = "Node Group 1 ID"
+  value       = aws_eks_node_group.eks_nodegroup_private.id
 }
 
-output "node_group_public_arn" {
-  description = "Public Node Group ARN"
-  value       = aws_eks_node_group.eks_nodegroup_public.arn
+output "node_group_private_arn" {
+  description = "Private Node Group ARN"
+  value       = aws_eks_node_group.eks_nodegroup_private.arn
 }
 
-# EKS Node Group Outputs - Private
 
-# output "node_group_private_id" {
-#   description = "Node Group 1 ID"
-#   value       = aws_eks_node_group.eks_nodegroup_private.id
-# }
-
-# output "node_group_private_arn" {
-#   description = "Private Node Group ARN"
-#   value       = aws_eks_node_group.eks_nodegroup_private.arn
-# }
-
-
-# EBS Output
-# output "ebs_csi_iam_role_arn" {
-#   description = "EBS CSI IAM Role ARN"
-#   value = aws_iam_role.ebs_csi_iam_role.arn
-# }
+#EBS Output
+output "ebs_csi_iam_role_arn" {
+  description = "EBS CSI IAM Role ARN"
+  value = aws_iam_role.ebs_csi_iam_role.arn
+}

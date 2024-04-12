@@ -139,3 +139,45 @@ resource "aws_iam_role_policy_attachment" "user_policy_attachment" {
   role       = aws_iam_role.eks_cluster_role.name
   policy_arn = aws_iam_policy.oidc_provider_policy.arn # ARN của chính sách
 }
+
+
+
+# Load balancer controller
+# create iam policy
+resource "aws_iam_policy" "lbc_iam_policy" {
+  name = "${var.aws_environment}-AwsLoadBalancerController-policy"
+  path = "/"
+  description = "AWS load balancer controller policy"
+  policy = data.http.lbc_policy.response_body
+}
+
+# create iam role
+resource "aws_iam_role" "lbc_iam_role" {
+  name = "${var.aws_environment}-lbc-role"
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Action = "sts:AssumeRoleWithWebIdentity"
+        Effect = "Allow"
+        Sid    = ""
+        Principal = {
+          Federated = "${aws_iam_openid_connect_provider.oidc_provider.arn}"
+        }
+        Condition = {
+          StringEquals = {
+            "${element(split("oidc-provider/", "${aws_iam_openid_connect_provider.oidc_provider.arn}"), 1)}:aud": "sts.amazonaws.com",            
+            "${element(split("oidc-provider/", "${aws_iam_openid_connect_provider.oidc_provider.arn}"), 1)}:sub": "system:serviceaccount:kube-system:aws-load-balancer-controller" //name of service account which needs to attach
+          }
+        }        
+      },
+    ]
+  })
+}
+
+# Associate lbc iam policy with iam role
+resource "aws_iam_role_policy_attachment" "lbc_iam_role_policy" {
+  policy_arn = aws_iam_policy.lbc_iam_policy.arn
+  role = aws_iam_role.lbc_iam_role.name
+}

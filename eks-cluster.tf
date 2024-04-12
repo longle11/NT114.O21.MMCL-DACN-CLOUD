@@ -48,57 +48,17 @@ resource "aws_iam_openid_connect_provider" "oidc_provider" {
 
 
 // eks nodegroup is using for managing pods,...
-resource "aws_eks_node_group" "eks_nodegroup_public" {
-  cluster_name    = aws_eks_cluster.eks_cluster.name
-  node_group_name = "${var.aws_environment}-eks-nodegroup-public"
-
-  node_role_arn   = aws_iam_role.eks_nodegroup_role.arn
-  subnet_ids      = module.vpc.public_subnets
-
-  ami_type = "AL2_x86_64"
-  instance_types = [var.aws_instance_type]
-  capacity_type = "ON_DEMAND"
-  disk_size = 20
-
-  remote_access {
-    ec2_ssh_key = var.aws_key_pair
-  }
-
-  scaling_config {
-    desired_size = 2
-    min_size     = 1    
-    max_size     = 2
-  }
-
-  # Desired max percentage of unavailable worker nodes during node group update.
-  update_config {
-    max_unavailable = 1    
-    #max_unavailable_percentage = 50    # ANY ONE TO USE
-  }
-
-   depends_on = [
-    aws_iam_role_policy_attachment.eks-AmazonEKSWorkerNodePolicy,
-    aws_iam_role_policy_attachment.eks-AmazonEKS_CNI_Policy,
-    aws_iam_role_policy_attachment.eks-AmazonEC2ContainerRegistryReadOnly,
-  ] 
-
-  tags = {
-    Name = "Public-Node-Group"
-  }
-}
-
-# resource "aws_eks_node_group" "eks_nodegroup_private" {
+# resource "aws_eks_node_group" "eks_nodegroup_public" {
 #   cluster_name    = aws_eks_cluster.eks_cluster.name
-#   node_group_name = "${var.aws_environment}-eks-nodegroup-private"
+#   node_group_name = "${var.aws_environment}-eks-nodegroup-public"
 
 #   node_role_arn   = aws_iam_role.eks_nodegroup_role.arn
-#   subnet_ids      = module.vpc.private_subnets
+#   subnet_ids      = module.vpc.public_subnets
 
 #   ami_type = "AL2_x86_64"
 #   instance_types = [var.aws_instance_type]
 #   capacity_type = "ON_DEMAND"
 #   disk_size = 20
-  
 
 #   remote_access {
 #     ec2_ssh_key = var.aws_key_pair
@@ -123,6 +83,46 @@ resource "aws_eks_node_group" "eks_nodegroup_public" {
 #   ] 
 
 #   tags = {
-#     Name = "Private-Node-Group"
+#     Name = "Public-Node-Group"
 #   }
 # }
+
+resource "aws_eks_node_group" "eks_nodegroup_private" {
+  cluster_name    = aws_eks_cluster.eks_cluster.name
+  node_group_name = "${var.aws_environment}-eks-nodegroup-private"
+
+  node_role_arn   = aws_iam_role.eks_nodegroup_role.arn
+  subnet_ids      = module.vpc.private_subnets
+
+  ami_type = "AL2_x86_64"
+  instance_types = [var.aws_instance_type]
+  capacity_type = "ON_DEMAND"
+  disk_size = 20
+  
+
+  remote_access {
+    ec2_ssh_key = var.aws_key_pair
+  }
+
+  scaling_config {
+    desired_size = 2
+    min_size     = 1    
+    max_size     = 2
+  }
+
+  # Desired max percentage of unavailable worker nodes during node group update.
+  update_config {
+    max_unavailable = 1    
+    #max_unavailable_percentage = 50    # ANY ONE TO USE
+  }
+
+   depends_on = [
+    aws_iam_role_policy_attachment.eks-AmazonEKSWorkerNodePolicy,
+    aws_iam_role_policy_attachment.eks-AmazonEKS_CNI_Policy,
+    aws_iam_role_policy_attachment.eks-AmazonEC2ContainerRegistryReadOnly,
+  ] 
+
+  tags = {
+    Name = "Private-Node-Group"
+  }
+}
