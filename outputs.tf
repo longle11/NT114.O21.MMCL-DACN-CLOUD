@@ -77,10 +77,3 @@ output "node_group_private_arn" {
   description = "Private Node Group ARN"
   value       = aws_eks_node_group.eks_nodegroup_private.arn
 }
-
-
-#EBS Output
-output "ebs_csi_iam_role_arn" {
-  description = "EBS CSI IAM Role ARN"
-  value = aws_iam_role.ebs_csi_iam_role.arn
-}
