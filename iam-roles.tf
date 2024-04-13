@@ -1,3 +1,8 @@
+locals {
+  openid_connect_provider = aws_iam_openid_connect_provider.oidc_provider.arn
+  openid_connect_provider_extract_arn = element(split("oidc-provider/", "${aws_iam_openid_connect_provider.oidc_provider.arn}"), 1)
+}
+
 // iam role for eks cluster
 resource "aws_iam_role" "eks_cluster_role" {
   name = "${var.aws_environment}-eks-cluster-role"
@@ -32,13 +37,21 @@ resource "aws_iam_policy" "oidc_provider_policy" {
           "Effect": "Allow",
           "Action": [
             "iam:GetOpenIDConnectProvider",
-            "iam:DeleteOpenIDConnectProvider"
+            "iam:DeleteOpenIDConnectProvider",
+            "iam:DeletePolicy"
           ],
           "Resource": "*"
         }
       ]
     }
 EOF
+}
+
+
+resource "aws_iam_role_policy_attachment" "user_policy_attachment" {
+  role       = aws_iam_role.eks_cluster_role.name
+  policy_arn = aws_iam_policy.oidc_provider_policy.arn # ARN của chính sách
+  depends_on = [ aws_iam_openid_connect_provider.oidc_provider ]
 }
 
 
@@ -116,11 +129,11 @@ resource "aws_iam_role" "ebs_iam_role" {
         Effect = "Allow"
         Sid    = ""
         Principal = {
-          Federated = "${aws_iam_openid_connect_provider.oidc_provider.arn}"
+          Federated = "${local.openid_connect_provider}"
         }
         Condition = {
           StringEquals = {            
-            "${element(split("oidc-provider/", "${aws_iam_openid_connect_provider.oidc_provider.arn}"), 1)}:sub": "system:serviceaccount:kube-system:ebs-csi-controller-sa"
+            "${local.openid_connect_provider_extract_arn}:sub": "system:serviceaccount:kube-system:ebs-csi-controller-sa"
           }
         }   
       }
@@ -134,11 +147,6 @@ resource "aws_iam_role_policy_attachment" "ebs_csi_iam_role_policy_attach" {
   role       = aws_iam_role.ebs_iam_role.name
 }
 
-
-resource "aws_iam_role_policy_attachment" "user_policy_attachment" {
-  role       = aws_iam_role.eks_cluster_role.name
-  policy_arn = aws_iam_policy.oidc_provider_policy.arn # ARN của chính sách
-}
 
 
 
@@ -163,12 +171,12 @@ resource "aws_iam_role" "lbc_iam_role" {
         Effect = "Allow"
         Sid    = ""
         Principal = {
-          Federated = "${aws_iam_openid_connect_provider.oidc_provider.arn}"
+          Federated = "${local.openid_connect_provider}"
         }
         Condition = {
           StringEquals = {
-            "${element(split("oidc-provider/", "${aws_iam_openid_connect_provider.oidc_provider.arn}"), 1)}:aud": "sts.amazonaws.com",            
-            "${element(split("oidc-provider/", "${aws_iam_openid_connect_provider.oidc_provider.arn}"), 1)}:sub": "system:serviceaccount:kube-system:aws-load-balancer-controller" //name of service account which needs to attach
+            "${local.openid_connect_provider_extract_arn}:aud": "sts.amazonaws.com",            
+            "${local.openid_connect_provider_extract_arn}:sub": "system:serviceaccount:kube-system:aws-load-balancer-controller" //name of service account which needs to attach
           }
         }        
       },

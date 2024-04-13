@@ -10,7 +10,6 @@ resource "aws_eks_cluster" "eks_cluster" {
     endpoint_public_access = var.eks_endpoint_public_access //Configuration alllows eks api interacts with public subnet
     public_access_cidrs = var.cluster_endpoint_public_access_cidrs
   }
-  
 
 
   kubernetes_network_config {
