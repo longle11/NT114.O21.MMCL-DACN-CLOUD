@@ -1,3 +1,2 @@
-.terraform*
-terraform.tfstate*
-exec-local-outputs-files/creation-time-vpc-id.txt
+# .terraform*
+# terraform.tfstate*

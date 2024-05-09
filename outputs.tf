@@ -1,29 +1,9 @@
-# EC2  bastion outputs
-# ## ec2_bastion_public_instance_ids
-# output "ec2_bastion_public_instance_ids" {
-#   description = "List of IDs of instances"
-#   value       = module.ec2_bastion_public.id
-# }
-
-# ## ec2_bastion_public_ip
-# output "ec2_bastion_eip" {
-#   description = "Elastic IP associated to the Bastion Host"
-#   value       = aws_eip.bastion_elastic_ip.public_ip
-# }
-
-
 # Eks outputs
 # Output: AWS IAM Open ID Connect Provider
 output "aws_iam_openid_connect_provider_extract_from_arn" {
   description = "AWS IAM Open ID Connect Provider extract from ARN"
    value = local.aws_iam_oidc_connect_provider_extract_from_arn
 }
-
-/*
-# Sample Outputs for Reference
-aws_iam_openid_connect_provider_arn = "arn:aws:iam::180789647333:oidc-provider/oidc.eks.us-east-1.amazonaws.com/id/A9DED4A4FA341C2A5D985A260650F232"
-aws_iam_openid_connect_provider_extract_from_arn = "oidc.eks.us-east-1.amazonaws.com/id/A9DED4A4FA341C2A5D985A260650F232"
-*/
 
 output "eks_cluster_id" {
   description = "The name/id of the EKS cluster."
@@ -54,18 +34,6 @@ output "cluster_primary_security_group_id" {
   description = "The cluster primary security group ID created by the EKS cluster on 1.14 or later. Referred to as 'Cluster security group' in the EKS console."
   value       = aws_eks_cluster.eks_cluster.vpc_config[0].cluster_security_group_id
 }
-
-# EKS Node Group Outputs - Public
-# output "node_group_public_id" {
-#   description = "Public Node Group ID"
-#   value       = aws_eks_node_group.eks_nodegroup_public.id
-# }
-
-# output "node_group_public_arn" {
-#   description = "Public Node Group ARN"
-#   value       = aws_eks_node_group.eks_nodegroup_public.arn
-# }
-
 #EKS Node Group Outputs - Private
 
 output "node_group_private_id" {
