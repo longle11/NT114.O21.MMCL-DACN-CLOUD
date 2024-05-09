@@ -6,7 +6,7 @@ resource "kubernetes_namespace" "kube-namespace" {
 }
 
 resource "helm_release" "prometheus" {
-  depends_on = [kubernetes_namespace.kube-namespace, time_sleep.wait_for_kubernetes]
+  depends_on = [kubernetes_namespace.kube-namespace]
   name       = "prometheus"
   repository = "https://prometheus-community.github.io/helm-charts"
   chart      = "kube-prometheus-stack"
@@ -16,7 +16,6 @@ resource "helm_release" "prometheus" {
   values = [
     file("./files/values.yaml")
   ]
-  timeout = 2000
   
 
 set {
@@ -29,7 +28,6 @@ set {
     value = false
   }
 
-  # You can provide a map of value using yamlencode. Don't forget to escape the last element after point in the name
   set {
     name = "server\\.resources"
     value = yamlencode({
