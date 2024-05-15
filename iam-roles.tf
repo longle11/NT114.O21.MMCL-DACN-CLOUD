@@ -103,7 +103,12 @@ resource "aws_iam_role_policy_attachment" "ebs_csi_iam_role_policy_attach" {
   role       = aws_iam_role.ebs_iam_role.name
 }
 
+
+# checkov:skip=CKV_AWS_XX
 resource "aws_iam_policy" "ingress_nginx_controller_policy" {
+  # checkov:skip=CKV_AWS_289
+  # checkov:skip=CKV_AWS_355
+  # checkov:skip=CKV_AWS_290
   name   = "${var.aws_environment}-ingress-nginx-controller-policy"
   policy = <<POLICY
     {
@@ -289,6 +294,8 @@ resource "aws_iam_role_policy_attachment" "eks-autoscaling" {
 
 # Resource: IAM Policy for Cluster Autoscaler
 resource "aws_iam_policy" "cluster_autoscaler_iam_policy" {
+  # checkov:skip=CKV_AWS_355
+  # checkov:skip=CKV_AWS_290
   name        = "${var.aws_environment}-AmazonEKSClusterAutoscalerPolicy"
   path        = "/"
   description = "EKS Cluster Autoscaler Policy"

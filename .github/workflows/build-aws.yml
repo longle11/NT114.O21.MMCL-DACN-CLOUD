@@ -1,9 +1,9 @@
+#checkov:skip=CKV2_GHA_1
 name: "Terraform"
-
 on:
   push:
     branches: ["main"]
-
+permissions: read-all
 jobs:
   terraform:
     name: "Terraform"

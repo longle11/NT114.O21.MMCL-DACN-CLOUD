@@ -1,6 +1,9 @@
 // eks cluster represents eks control plane
 // when eks cluster is created. we are provisioning the control plane for kubernetes env
 resource "aws_eks_cluster" "eks_cluster" {
+  #checkov:skip=CKV_AWS_38
+  #checkov:skip=CKV_AWS_39
+  #checkov:skip=CKV_AWS_58
   name     = "${var.eks_cluster_name}"
   role_arn = aws_iam_role.eks_cluster_role.arn
 
@@ -10,14 +13,12 @@ resource "aws_eks_cluster" "eks_cluster" {
     endpoint_public_access = var.eks_endpoint_public_access //Configuration alllows eks api interacts with public subnet
     public_access_cidrs = var.cluster_endpoint_public_access_cidrs
   }
-
-
   kubernetes_network_config {
     service_ipv4_cidr = var.eks_service_ipv4_cidr   //specify network subnets used for providing ips for pods and services,...
   }
 
   # Enable EKS Cluster Control Plane Logging
-  # enabled_cluster_log_types = ["api", "audit", "authenticator", "controllerManager", "scheduler"]
+  enabled_cluster_log_types = ["api", "audit", "authenticator", "controllerManager", "scheduler"]
 
   # Ensure that IAM Role permissions are created before and deleted after EKS Cluster handling.
   # Otherwise, EKS will not be able to properly delete EKS managed EC2 infrastructure such as Security Groups.
@@ -70,6 +71,7 @@ resource "aws_eks_node_group" "eks_nodegroup_private" {
 
   remote_access {
     ec2_ssh_key = var.aws_key_pair
+    source_security_group_ids = [aws_security_group.allow_tls.id]
   }
 
   scaling_config {

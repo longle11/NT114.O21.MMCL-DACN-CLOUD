@@ -4,9 +4,9 @@ terraform {
       source = "hashicorp/aws"
       version = "~>5.43"
     }
-    null = {
-      source = "hashicorp/null"
-      version = "~>3.2"
+    external = {
+      source = "hashicorp/external"
+      version = "~>2.3"
     }
     //used to download policies from github
     http = {

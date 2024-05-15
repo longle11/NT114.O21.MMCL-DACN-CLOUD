@@ -5,7 +5,6 @@ resource "helm_release" "cluster_autoscaler_release" {
 
   repository = "https://kubernetes.github.io/autoscaler"
   chart      = "cluster-autoscaler"
-
   namespace = "kube-system"   
 
   set {
@@ -31,4 +30,4 @@ resource "helm_release" "cluster_autoscaler_release" {
     name  = "rbac.serviceAccount.annotations.eks\\.amazonaws\\.com/role-arn"
     value = "${aws_iam_role.cluster_autoscaler_iam_role.arn}"
   }   
-}
+} 
