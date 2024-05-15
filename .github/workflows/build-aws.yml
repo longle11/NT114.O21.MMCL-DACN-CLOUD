@@ -7,11 +7,11 @@ permissions: read-all
 jobs:
   terraform:
     name: "Terraform"
-    # env:
-    #   # AWS secrets
-    #   AWS_ACCESS_KEY_ID: ${{ secrets.SC_AWS_ACCESS_KEY_ID }}
-    #   AWS_SECRET_ACCESS_KEY: ${{secrets.SC_AWS_SECRET_ACCESS_KEY }}
-    #   AWS_REGION: ${{ secrets.SC_AWS_REGION }}
+    env:
+      # AWS secrets
+      AWS_ACCESS_KEY_ID: ${{ secrets.SC_AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{secrets.SC_AWS_SECRET_ACCESS_KEY }}
+      AWS_REGION: ${{ secrets.SC_AWS_REGION }}
 
     runs-on: ubuntu-latest
     # Checkout the repository to the GitHub Actions runner
