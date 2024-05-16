@@ -97,6 +97,15 @@ resource "aws_iam_role" "ebs_iam_role" {
   })
 }
 
+output "ebs_iam_role_output" {
+  description = "ebs_iam_role_arn_output"
+  value = aws_iam_role.ebs_iam_role.arn
+}
+output "ebs_iam_role_arn_output" {
+  description = "ebs_iam_role_assume_role_policy_output"
+  value = aws_iam_role.ebs_iam_role.assume_role_policy
+}
+
 # Associate EBS CSI IAM Policy to EBS CSI IAM Role
 resource "aws_iam_role_policy_attachment" "ebs_csi_iam_role_policy_attach" {
   policy_arn = aws_iam_policy.ebs_iam_policy.arn 
@@ -277,6 +286,15 @@ resource "aws_iam_role" "ingress_controller_iam_role" {
       },
     ]
   })
+}
+
+output "ingress_controller_iam_role_output_arn" {
+  description = "ebs_iam_role_assume_role_policy_output"
+  value = aws_iam_role.ingress_controller_iam_role.arn
+}
+output "ingress_controller_iam_role_output_assume_role_policy" {
+  description = "ebs_iam_role_assume_role_policy_output"
+  value = aws_iam_role.ingress_controller_iam_role.assume_role_policy
 }
 
 resource "aws_iam_role_policy_attachment" "lbc_iam_role_policy" {
