@@ -289,11 +289,11 @@ resource "aws_iam_role" "ingress_controller_iam_role" {
 }
 
 output "ingress_controller_iam_role_output_arn" {
-  description = "ebs_iam_role_assume_role_policy_output"
+  description = "ingress_controller_iam_role_arn_output"
   value = aws_iam_role.ingress_controller_iam_role.arn
 }
 output "ingress_controller_iam_role_output_assume_role_policy" {
-  description = "ebs_iam_role_assume_role_policy_output"
+  description = "ingress_controller_iam_role_assume_role_policy_output"
   value = aws_iam_role.ingress_controller_iam_role.assume_role_policy
 }
 
