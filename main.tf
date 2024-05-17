@@ -24,7 +24,7 @@ terraform {
   backend "s3" {
     bucket = "storage-state-file"
     key    = "build/terraform.tfstate"
-    region = var.aws_region
+    region = "us-east-1"
   }  
 }
 
