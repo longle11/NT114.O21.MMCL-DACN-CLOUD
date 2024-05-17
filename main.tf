@@ -19,5 +19,12 @@ terraform {
       version = "~>2.13"
     }
   }
+  
+  # Adding Backend as S3 for Remote State Storage
+  backend "s3" {
+    bucket = "storage-state-file"
+    key    = "build/terraform.tfstate"
+    region = var.aws_region
+  }  
 }
 
