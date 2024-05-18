@@ -20,7 +20,6 @@ terraform {
     }
   }
   
-  # Adding Backend as S3 for Remote State Storage
   backend "s3" {
     bucket = "storage-state-file"
     key    = "build/terraform.tfstate"
