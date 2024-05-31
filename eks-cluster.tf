@@ -56,6 +56,7 @@ resource "aws_eks_node_group" "eks_nodegroup_private" {
     aws_iam_role_policy_attachment.eks-AmazonEKSWorkerNodePolicy,
     aws_iam_role_policy_attachment.eks-AmazonEKS_CNI_Policy,
     aws_iam_role_policy_attachment.eks-AmazonEC2ContainerRegistryReadOnly,
+    kubernetes_config_map.aws-auth
   ] 
   cluster_name    = aws_eks_cluster.eks_cluster.name
   node_group_name = "${var.aws_environment}-eks-nodegroup-private"
