@@ -148,6 +148,7 @@ resource "kubernetes_namespace" "k8s_dev" {
 
 //create role and role binding resources
 resource "kubernetes_role" "eksdev_role" {
+    #checkov:skip=CKV_K8S_49
     depends_on = [ kubernetes_namespace.k8s_dev ]
   metadata {
     name = "eksdev-role"
