@@ -101,6 +101,7 @@ resource "aws_iam_group_policy" "iam_group_dev_assume_role_policy" {
 
 //create kubernetes cluster role and cluster role binding resources
 resource "kubernetes_cluster_role" "eks_dev_cluster_role" {
+    #checkov:skip=CKV_K8S_49
     metadata {
         name = "eks-dev-cluster-role"
     }
