@@ -82,9 +82,12 @@ variable "eks_service_ipv4_cidr" {
   default = "172.16.0.0/16"
 }
 
-# variable "eks_cluster_version" {
-  
-# }
+variable "cluster_version" {
+  description = "Cluster Version"
+  type = string
+  default = "1.26"
+}
+
 
 variable "eks_endpoint_private_access" {
   description = "Whether the Amazon EKS private API server endpoint is enabled"
@@ -105,7 +108,9 @@ variable "cluster_endpoint_public_access_cidrs" {
 }
 
 
-# Exact oidc provider information
-locals {
-  aws_iam_oidc_connect_provider_extract_from_arn = element(split("oidc-provider/", aws_iam_openid_connect_provider.oidc_provider.arn), 1)
+//argo CD
+variable "argo_namespace" {
+  description = "create argocd namespace"
+  type = string
+  default = "argocd"
 }

@@ -1,12 +1,11 @@
 resource "helm_release" "prometheus" {
-  depends_on = [ aws_eks_node_group.eks_nodegroup_private ]
   name       = "prometheus"
   repository = "https://prometheus-community.github.io/helm-charts"
   chart      = "kube-prometheus-stack"
   namespace  = "prometheus"
   create_namespace = true
   values = [
-    file("file/values.yaml")
+    file("file/valuePrometheus.yaml")
   ]
   timeout = 2000
   

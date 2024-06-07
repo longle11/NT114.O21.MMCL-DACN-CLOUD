@@ -87,20 +87,20 @@ resource "aws_iam_group_policy" "iam_group_readonly_assume_role_policy" {
     policy = jsonencode({
         Version = "2012-10-17"
         Statement = [
-        {
-            Action = [
-                "sts:AssumeRole",
-            ]
-            Effect   = "Allow"
-            Sid = "AllowAssumeOrganizationAccountRole"
-            Resource = "${aws_iam_role.eks_readonly_role.arn}"
-        },
+            {
+                Action = [
+                    "sts:AssumeRole",
+                ]
+                Effect   = "Allow"
+                Sid = "AllowAssumeOrganizationAccountRole"
+                Resource = "${aws_iam_role.eks_readonly_role.arn}"
+            },
         ]
     })
 }
 
 //create kubernetes cluster role and cluster role binding resources
-resource "kubernetes_cluster_role" "eks_readonly_cluster_role" {
+resource "kubernetes_cluster_role_v1" "eks_readonly_cluster_role" {
     #checkov:skip=CKV_K8S_49
     metadata {
         name = "eks-readonly-cluster-role"
@@ -123,14 +123,14 @@ resource "kubernetes_cluster_role" "eks_readonly_cluster_role" {
     }
 }
 
-resource "kubernetes_cluster_role_binding" "eks_readonly_cluster_role_binding" {
+resource "kubernetes_cluster_role_binding_v1" "eks_readonly_cluster_role_binding" {
     metadata {
         name = "eks-readonly-cluster-role-binding"
     }
     role_ref {
         api_group = "rbac.authorization.k8s.io"
         kind      = "ClusterRole"
-        name      = kubernetes_cluster_role.eks_readonly_cluster_role.metadata.0.name
+        name      = kubernetes_cluster_role_v1.eks_readonly_cluster_role.metadata.0.name
     }
     subject {
         kind      = "Group"

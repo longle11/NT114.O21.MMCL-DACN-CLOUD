@@ -6,6 +6,7 @@ resource "aws_eks_cluster" "eks_cluster" {
   #checkov:skip=CKV_AWS_58
   name     = "${var.eks_cluster_name}"
   role_arn = aws_iam_role.eks_cluster_role.arn
+  version = var.cluster_version
 
   vpc_config {
     subnet_ids = module.vpc.public_subnets
@@ -27,8 +28,8 @@ resource "aws_eks_cluster" "eks_cluster" {
     aws_iam_role_policy_attachment.eks-AmazonEKSVPCResourceController,
   ]
 
-   tags = {
-    Name = "Eks-cluster"
+  tags = {
+    Name = "eks-cluster"
   }
 }
 
@@ -56,7 +57,7 @@ resource "aws_eks_node_group" "eks_nodegroup_private" {
     aws_iam_role_policy_attachment.eks-AmazonEKSWorkerNodePolicy,
     aws_iam_role_policy_attachment.eks-AmazonEKS_CNI_Policy,
     aws_iam_role_policy_attachment.eks-AmazonEC2ContainerRegistryReadOnly,
-    kubernetes_config_map.aws-auth
+    kubernetes_config_map_v1.aws-auth
   ] 
   cluster_name    = aws_eks_cluster.eks_cluster.name
   node_group_name = "${var.aws_environment}-eks-nodegroup-private"

@@ -100,7 +100,7 @@ resource "aws_iam_group_policy" "iam_group_dev_assume_role_policy" {
 }
 
 //create kubernetes cluster role and cluster role binding resources
-resource "kubernetes_cluster_role" "eks_dev_cluster_role" {
+resource "kubernetes_cluster_role_v1" "eks_dev_cluster_role" {
     #checkov:skip=CKV_K8S_49
     metadata {
         name = "eks-dev-cluster-role"
@@ -123,14 +123,14 @@ resource "kubernetes_cluster_role" "eks_dev_cluster_role" {
     }
 }
 
-resource "kubernetes_cluster_role_binding" "eks_dev_cluster_role_binding" {
+resource "kubernetes_cluster_role_binding_v1" "eks_dev_cluster_role_binding" {
     metadata {
         name = "eks-dev-cluster-role-binding"
     }
     role_ref {
         api_group = "rbac.authorization.k8s.io"
         kind      = "ClusterRole"
-        name      = kubernetes_cluster_role.eks_dev_cluster_role.metadata[0].name
+        name      = kubernetes_cluster_role_v1.eks_dev_cluster_role.metadata[0].name
     }
     subject {
         kind      = "Group"
@@ -147,7 +147,7 @@ resource "kubernetes_namespace" "k8s_dev" {
 }
 
 //create role and role binding resources
-resource "kubernetes_role" "eksdev_role" {
+resource "kubernetes_role_v1" "eksdev_role" {
     #checkov:skip=CKV_K8S_49
     depends_on = [ kubernetes_namespace.k8s_dev ]
   metadata {
@@ -166,7 +166,7 @@ resource "kubernetes_role" "eksdev_role" {
     verbs      = ["*"]
   }
 }
-resource "kubernetes_role_binding" "eksdev_role_binding" {
+resource "kubernetes_role_binding_v1" "eksdev_role_binding" {
   metadata {
     name      = "eksdev-rolebinding"
     namespace = "dev"
@@ -174,7 +174,7 @@ resource "kubernetes_role_binding" "eksdev_role_binding" {
   role_ref {
     api_group = "rbac.authorization.k8s.io"
     kind      = "Role"
-    name      = kubernetes_role.eksdev_role.metadata[0].name 
+    name      = kubernetes_role_v1.eksdev_role.metadata[0].name 
   }
   subject {
     kind      = "Group"

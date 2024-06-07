@@ -2,13 +2,19 @@
 # Output: AWS IAM Open ID Connect Provider
 output "aws_iam_openid_connect_provider_extract_from_arn" {
   description = "AWS IAM Open ID Connect Provider extract from ARN"
-   value = local.aws_iam_oidc_connect_provider_extract_from_arn
+  value = local.openid_connect_provider_extract_arn
 }
 
 output "eks_cluster_id" {
   description = "The name/id of the EKS cluster."
   value = aws_eks_cluster.eks_cluster.id
 }
+
+output "cluster_version" {
+  description = "The Kubernetes server version for the EKS cluster."
+  value       = aws_eks_cluster.eks_cluster.version
+}
+
 output "eks_cluster_arn" {
   description = "The Amazon Resource Name (ARN) of the cluster."
   value       = aws_eks_cluster.eks_cluster.arn
@@ -44,4 +50,11 @@ output "node_group_private_id" {
 output "node_group_private_arn" {
   description = "Private Node Group ARN"
   value       = aws_eks_node_group.eks_nodegroup_private.arn
+}
+
+
+//dns name for ingress nginx controller
+output "dns_ingress_controller" {
+    description = "DNS for ingress nginx controller"
+    value = data.kubernetes_service_v1.ingress_controller.status[0].load_balancer[0].ingress[0].hostname
 }
