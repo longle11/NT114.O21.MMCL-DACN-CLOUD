@@ -1,16 +1,17 @@
-resource "helm_release" "prometheus" {
-  name       = "prometheus"
-  repository = "https://prometheus-community.github.io/helm-charts"
-  chart      = "kube-prometheus-stack"
-  namespace  = "prometheus"
+resource "helm_release" "prometheus1" {
+  depends_on = [ aws_eks_node_group.eks_nodegroup_private ]
+  name             = "prometheus"
+  repository       = "https://prometheus-community.github.io/helm-charts"
+  chart            = "kube-prometheus-stack"
+  namespace        = "prometheus"
   create_namespace = true
   values = [
     file("file/valuePrometheus.yaml")
   ]
   timeout = 2000
-  
+  cleanup_on_fail = true
 
-set {
+  set {
     name  = "podSecurityPolicy.enabled"
     value = true
   }

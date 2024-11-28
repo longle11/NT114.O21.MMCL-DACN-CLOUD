@@ -114,11 +114,11 @@ resource "aws_iam_role_policy_attachment" "ebs_csi_iam_role_policy_attach" {
 
 
 # checkov:skip=CKV_AWS_XX
-resource "aws_iam_policy" "ingress_nginx_controller_policy" {
+resource "aws_iam_policy" "ingress_kong_controller_policy" {
   # checkov:skip=CKV_AWS_289
   # checkov:skip=CKV_AWS_355
   # checkov:skip=CKV_AWS_290
-  name   = "${var.aws_environment}-ingress-nginx-controller-policy"
+  name   = "${var.aws_environment}-ingress-kong-controller-policy"
   policy = <<POLICY
     {
       "Version": "2012-10-17",
@@ -265,7 +265,7 @@ resource "aws_iam_policy" "ingress_nginx_controller_policy" {
 
 
 resource "aws_iam_role" "ingress_controller_iam_role" {
-  name = "${var.aws_environment}-ingress-nginx-controller-role"
+  name = "${var.aws_environment}-ingress-kong-controller-role"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -280,7 +280,7 @@ resource "aws_iam_role" "ingress_controller_iam_role" {
         Condition = {
           StringEquals = {
             "${local.openid_connect_provider_extract_arn}:aud": "sts.amazonaws.com",            
-            "${local.openid_connect_provider_extract_arn}:sub": "system:serviceaccount:kube-system:nginx-ingress-controller" 
+            "${local.openid_connect_provider_extract_arn}:sub": "system:serviceaccount:kong:kong-ingress-controller" 
           }
         }        
       },
@@ -298,7 +298,7 @@ output "ingress_controller_iam_role_output_assume_role_policy" {
 }
 
 resource "aws_iam_role_policy_attachment" "lbc_iam_role_policy" {
-  policy_arn = aws_iam_policy.ingress_nginx_controller_policy.arn
+  policy_arn = aws_iam_policy.ingress_kong_controller_policy.arn
   role = aws_iam_role.ingress_controller_iam_role.name
 }
 

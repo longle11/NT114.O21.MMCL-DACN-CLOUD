@@ -1,0 +1,35 @@
+name: Manually triggered workflow
+on:
+  workflow_dispatch:
+    inputs:
+      env:
+        description: 'Environment'
+        required: true
+        default: 'dev'
+
+jobs:
+  terraform_destroy:  
+    name: "Destroy resources aws"
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.SC_AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{secrets.SC_AWS_SECRET_ACCESS_KEY }}
+      AWS_REGION: ${{ secrets.SC_AWS_REGION }}
+      # WORKING_DIRECTORY: "./Terraform/environments/staging"
+    runs-on: ubuntu-latest
+    steps:
+      - name: copy tfstate s3
+        run: aws s3 cp s3://terraform-state-bucket/build/terraform.tfstate terraform.tfstate
+
+      - name: show destroy plan
+        run: terraform plan --destroy
+        continue-on-error: true
+        # working-directory: ${{ env.WORKING_DIRECTORY }}
+      
+      - name: destroy resources
+        run: terraform destroy -auto-approve
+        id: destroy
+        # working-directory: ${{ env.WORKING_DIRECTORY }}
+      
+      - name: delete s3 tf file
+        if: steps.destroy.outcome == 'success'
+        run: aws s3 rm s3://terraform-state-bucket/build/terraform.tfstate terraform.tfstate

@@ -1,11 +1,21 @@
 data "aws_elb_hosted_zone_id" "main" {}
+# data "kubernetes_service_v1" "ingress_controller" {
+#     depends_on = [ helm_release.nginx-ingress-controller ]
+#     metadata {
+#         name = "nginx-ingress-controller"
+#         namespace = "kube-system"
+#     }
+# }
+
 data "kubernetes_service_v1" "ingress_controller" {
-    depends_on = [ helm_release.nginx-ingress-controller ]
+    depends_on = [ helm_release.kong-ingress-controller1 ]
     metadata {
-        name = "nginx-ingress-controller"
-        namespace = "kube-system"
+        name = "kong-proxy"
+        namespace = "kong"
     }
 }
+
+
 
 resource "aws_route53_zone" "route53_domain_name" {
     # checkov:skip=CKV2_AWS_38

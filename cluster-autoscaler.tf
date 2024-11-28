@@ -1,11 +1,11 @@
 # Resource: Helm Release 
 resource "helm_release" "cluster_autoscaler_release" {
-  depends_on = [aws_iam_role.cluster_autoscaler_iam_role]            
+  depends_on = [aws_eks_node_group.eks_nodegroup_private, aws_iam_role.cluster_autoscaler_iam_role]
   name       = "${var.aws_environment}-cluster-autoscaler"
 
   repository = "https://kubernetes.github.io/autoscaler"
   chart      = "cluster-autoscaler"
-  namespace = "kube-system"   
+  namespace  = "kube-system"
 
   set {
     name  = "cloudProvider"
@@ -28,6 +28,6 @@ resource "helm_release" "cluster_autoscaler_release" {
 
   set {
     name  = "rbac.serviceAccount.annotations.eks\\.amazonaws\\.com/role-arn"
-    value = "${aws_iam_role.cluster_autoscaler_iam_role.arn}"
-  }   
+    value = aws_iam_role.cluster_autoscaler_iam_role.arn
+  }
 } 
