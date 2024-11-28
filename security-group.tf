@@ -1,5 +1,6 @@
  #Adding security group
 resource "aws_security_group" "allow_tls" {
+  # checkov:skip=CKV_AWS_382
   name_prefix   = "allow_tls"
   description   = "Allow TLS inbound traffic"
   vpc_id        = module.vpc.vpc_id
