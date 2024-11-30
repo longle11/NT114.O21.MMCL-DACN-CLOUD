@@ -8,7 +8,7 @@ data "aws_elb_hosted_zone_id" "main" {}
 # }
 
 data "kubernetes_service_v1" "ingress_controller" {
-    depends_on = [ helm_release.kong-ingress-controller1 ]
+    depends_on = [ helm_release.kong-ingress-controller ]
     metadata {
         name = "kong-proxy"
         namespace = "kong"

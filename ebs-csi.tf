@@ -15,7 +15,7 @@ data "aws_eks_cluster_auth" "eks_cluster_auth" {
 
 // EBS CSI Driver using helm
 resource "helm_release" "ebs_csi_driver" {
-  depends_on = [ aws_eks_node_group.eks_nodegroup_private, aws_iam_role.ebs_iam_role]
+  depends_on = [ aws_iam_role.ebs_iam_role]
   name       = "${var.aws_environment}-ebs-csi-driver"
   namespace  = "kube-system"
   repository = "https://kubernetes-sigs.github.io/aws-ebs-csi-driver"

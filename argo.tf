@@ -4,7 +4,9 @@ resource "kubernetes_namespace" "argocd_ns" {
   }
 }
 resource "helm_release" "argocd" {
-  depends_on = [ aws_eks_node_group.eks_nodegroup_private, kubernetes_namespace.argocd_ns ]
+  depends_on = [
+    kubernetes_namespace.argocd_ns
+  ]
   name = "argocd"
   repository       = "https://argoproj.github.io/argo-helm"
   chart            = "argo-cd"
@@ -23,7 +25,9 @@ resource "kubernetes_namespace" "argocd_rollout_ns" {
   }
 }
 resource "helm_release" "argocd_rollout" {
-  depends_on = [ aws_eks_node_group.eks_nodegroup_private, kubernetes_namespace.argocd_rollout_ns ]
+  depends_on = [
+    kubernetes_namespace.argocd_rollout_ns
+  ]
   name = "my-release"
   repository       = "https://argoproj.github.io/argo-helm"
   chart            = "argo-rollouts"

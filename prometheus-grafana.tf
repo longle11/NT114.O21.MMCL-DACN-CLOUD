@@ -1,5 +1,4 @@
 resource "helm_release" "prometheus1" {
-  depends_on = [ aws_eks_node_group.eks_nodegroup_private ]
   name             = "prometheus"
   repository       = "https://prometheus-community.github.io/helm-charts"
   chart            = "kube-prometheus-stack"

@@ -2936,7 +2936,7 @@ prometheus:
 
     ## Service type
     ##
-    type: ClusterIP
+    type: Loadbalancer
 
     ## Service dual stack
     ##

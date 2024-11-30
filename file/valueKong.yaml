@@ -26,7 +26,7 @@ env:
   pg_ssl: "off"
   pg_ssl_verify: "off"
   password: kong
-  pg_host: kong-postgresql.kong.svc.cluster.local
+  pg_host: "kong-postgresql.kong.svc.cluster.local"
   pg_user: kong
   router_flavor: "traditional"
   nginx_worker_processes: "2"
