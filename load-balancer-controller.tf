@@ -29,7 +29,7 @@ resource "kubectl_manifest" "ebs_sc" {
     volumeBindingMode: WaitForFirstConsumer
     allowVolumeExpansion: true
     reclaimPolicy: Retain
-YAML
+  YAML
 }
 
 
@@ -43,7 +43,7 @@ resource "helm_release" "kong-ingress-controller" {
   repository = "https://charts.konghq.com"
   version    = "2.41.1"
   chart      = "kong"
-  namespace  = "kong1"
+  namespace  = "kong"
 
   create_namespace = false
   cleanup_on_fail  = true
