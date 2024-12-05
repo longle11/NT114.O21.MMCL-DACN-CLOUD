@@ -714,6 +714,11 @@ ingressController:
 
 postgresql:
   enabled: true
+  primary:
+    persistence:
+      enabled: true
+      storageClass: "gp2"
+      size: "10Gi"
   auth:
     username: kong
     database: kong
@@ -1020,7 +1025,7 @@ serviceMonitor:
 # Other settings should be added to the "env" settings below
 enterprise:
   enabled: true
-  # Kong Enterprise license secret name
+  # Kong  license secret name
   # This secret must contain a single 'license' key, containing your base64-encoded license data
   # The license secret is required to unlock all Enterprise features. If you omit it,
   # Kong will run in free mode, with some Enterprise features disabled.
@@ -1030,7 +1035,7 @@ enterprise:
   portal:
     enabled: false
   rbac:
-    enabled: true
+    enabled: false
     admin_gui_auth: basic-auth
     # If RBAC is enabled, this Secret must contain an admin_gui_session_conf key
     # The key value must be a secret configuration, following the example at
@@ -1067,7 +1072,7 @@ enterprise:
 manager:
   # Enable creating a Kubernetes service for Kong Manager
   enabled: true
-  type: Loadbalancer
+  type: LoadBalancer
   loadBalancerClass:
   # To specify annotations or labels for the Manager service, add them to the respective
   # "annotations" or "labels" dictionaries below.
@@ -1251,13 +1256,12 @@ extraSecrets: []
 #   mountPath: /mount/to/my/location
 #   subPath: my-subpath # Optional, if you wish to mount a single key and not the entire ConfigMap
 
-extraObjects: []
-# extraObjects:
-# - apiVersion: configuration.konghq.com/v1
-#   kind: KongClusterPlugin
-#   metadata:
-#     name: prometheus
-#   config:
-#     per_consumer: false
-#   plugin: prometheus
+extraObjects:
+- apiVersion: configuration.konghq.com/v1
+  kind: KongClusterPlugin
+  metadata:
+    name: prometheus
+  config:
+    per_consumer: true
+  plugin: prometheus
 

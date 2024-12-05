@@ -10,32 +10,34 @@ data "aws_elb_hosted_zone_id" "main" {}
 data "kubernetes_service_v1" "ingress_controller" {
     depends_on = [ helm_release.kong-ingress-controller ]
     metadata {
-        name = "kong-proxy"
+        name = "kong-kong-proxy"
         namespace = "kong"
     }
 }
 
-
+data "aws_elb_hosted_zone_id" "elb_hosted_zone" {
+    region = var.aws_region
+}
 
 resource "aws_route53_zone" "route53_domain_name" {
     # checkov:skip=CKV2_AWS_38
     # checkov:skip=CKV2_AWS_39
-    name = "nt533uitjiradev.click"
+    name = var.domain_name
     tags = {
         Environment = "dev"
     }
 }
 
-# resource "aws_route53_record" "vault_record" {
-#     zone_id = aws_route53_zone.route53_domain_name.zone_id
-#     name    = "www.nt533uitjiradev.click"
-#     type    = "A"
+resource "aws_route53_record" "vault_record" {
+    zone_id = aws_route53_zone.route53_domain_name.zone_id
+    name    = "www.${var.domain_name}"
+    type    = "A"
 
-#     alias {
-#         name                   = data.kubernetes_service_v1.ingress_controller.status[0].load_balancer[0].ingress[0].hostname
-#         zone_id                = aws_route53_zone.route53_domain_name.zone_id
-#         evaluate_target_health = true
-#     }
+    alias {
+        name                   = data.kubernetes_service_v1.ingress_controller.status[0].load_balancer[0].ingress[0].hostname
+        zone_id                = data.aws_elb_hosted_zone_id.elb_hosted_zone.id //lookup id here https://docs.aws.amazon.com/general/latest/gr/elb.html
+        evaluate_target_health = true
+    }
 
-#     depends_on = [ helm_release.nginx-ingress-controller ]
-# }
+    depends_on = [ helm_release.kong-ingress-controller ]
+}

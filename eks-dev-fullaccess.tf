@@ -63,7 +63,6 @@ resource "aws_iam_role" "eks_dev_role" {
                 ]
             }
         )
-
     }
 
     tags = {

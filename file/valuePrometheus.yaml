@@ -733,14 +733,14 @@ alertmanager:
     ## ref: https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/user-guides/storage.md
     ##
     storage: {}
-    # volumeClaimTemplate:
-    #   spec:
-    #     storageClassName: gluster
-    #     accessModes: ["ReadWriteOnce"]
-    #     resources:
-    #       requests:
-    #         storage: 50Gi
-    #     selector: {}
+    volumeClaimTemplate:
+      spec:
+        storageClassName: "gp2"
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 10Gi
+        selector: {}
 
 
     ## The external URL the Alertmanager instances will be available under. This is necessary to generate correct URLs. This is necessary if Alertmanager is not served from root of a DNS name. string  false
@@ -2957,7 +2957,7 @@ prometheus:
 
     ## ClusterIP to assign
     # Default is to make this a headless service ("None")
-    clusterIP: "None"
+    clusterIP: ""
 
     ## Port to expose on each node, if service type is NodePort
     ##
@@ -3768,7 +3768,17 @@ prometheus:
     ## The scrape configuration example below will find master nodes, provided they have the name .*mst.*, relabel the
     ## port to 2379 and allow etcd scraping provided it is running on all Kubernetes master nodes
     ##
-    additionalScrapeConfigs: []
+    additionalScrapeConfigs:
+    - job_name: kong-monitoring
+      metrics_path: /metrics
+      static_configs:
+        - targets:
+          - kong-kong-admin.kong.svc.cluster.local:8001
+    - job_name: argocd-rollout-monitoring
+      metrics_path: /metrics
+      static_configs:
+        - targets:
+          - my-release-argo-rollouts-metrics.argocd-rollout.svc.cluster.local:8090
     # - job_name: kube-etcd
     #   kubernetes_sd_configs:
     #     - role: node

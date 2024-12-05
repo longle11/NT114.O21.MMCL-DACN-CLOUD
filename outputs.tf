@@ -57,3 +57,14 @@ output "dns_ingress_controller" {
     description = "DNS for ingress nginx controller"
     value = data.kubernetes_service_v1.ingress_controller.status[0].load_balancer[0].ingress[0].hostname
 }
+
+//keypair output
+
+output "private_key" {
+  value     = tls_private_key.tls.private_key_pem
+  sensitive = true
+}
+
+output "key_name" {
+  value = aws_key_pair.generated_key.key_name
+}

@@ -22,10 +22,10 @@ terraform {
   }
   
   # //add s3 bucket
-  backend "s3" {
-    bucket = "storage-state-file"
-    key    = "build/terraform.tfstate"
-    region = "us-east-1"
-  }  
+  # backend "s3" {
+  #   bucket = "storage-state-file"
+  #   key    = "build/terraform.tfstate"
+  #   region = "us-east-1"
+  # }  
 }
 

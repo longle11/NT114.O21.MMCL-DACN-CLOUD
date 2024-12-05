@@ -137,7 +137,7 @@ controller:
 
   metrics:
     # -- Deploy metrics service
-    enabled: false
+    enabled: true
     service:
       # -- Metrics service port name
       portName: metrics
@@ -353,7 +353,7 @@ dashboard:
   containerSecurityContext: {}
   service:
     # -- Sets the type of the Service
-    type: ClusterIP
+    type: LoadBalancer
     # -- The class of the load balancer implementation
     loadBalancerClass: ""
     # -- LoadBalancer will get created with the IP specified in this field
