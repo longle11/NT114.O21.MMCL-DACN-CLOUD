@@ -1,4 +1,4 @@
-# Default values for kube-prometheus-stack.
+# Default values for kube-                                            etheus-stack.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
@@ -174,6 +174,10 @@ defaultRules:
   ## Prefix for runbook URLs. Use this to override the first part of the runbookURLs that is common to all rules.
   runbookUrl: "https://runbooks.prometheus-operator.dev/runbooks"
 
+  node:
+    fsSelector: 'fstype!=""'
+    # fsSelector: 'fstype=~"ext[234]|btrfs|xfs|zfs"'
+
   ## Disabled PrometheusRule alerts
   disabled: {}
   # KubeAPIDown: true
@@ -275,6 +279,10 @@ alertmanager:
   ##
   apiVersion: v2
 
+  ## @param alertmanager.enableFeatures Enable access to Alertmanager disabled features.
+  ##
+  enableFeatures: []
+
   ## Service account for Alertmanager to use.
   ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/
   ##
@@ -298,25 +306,44 @@ alertmanager:
   ##
   config:
     global:
-      resolve_timeout: 1m
+      resolve_timeout: 5m
+    inhibit_rules:
+      - source_matchers:
+          - 'severity = critical'
+        target_matchers:
+          - 'severity =~ warning|info'
+        equal:
+          - 'namespace'
+          - 'alertname'
+      - source_matchers:
+          - 'severity = warning'
+        target_matchers:
+          - 'severity = info'
+        equal:
+          - 'namespace'
+          - 'alertname'
+      - source_matchers:
+          - 'alertname = InfoInhibitor'
+        target_matchers:
+          - 'severity = info'
+        equal:
+          - 'namespace'
+      - target_matchers:
+          - 'alertname = InfoInhibitor'
     route:
-      receiver: email-alert
-      group_by: ['severity']
+      group_by: ['namespace']
       group_wait: 30s
-      group_interval: 3m
-      repeat_interval: 12h  
-
+      group_interval: 5m
+      repeat_interval: 12h
+      receiver: 'null'
+      routes:
+      - receiver: 'null'
+        matchers:
+          - alertname = "Watchdog"
     receivers:
-    - name: email-alert
-      email_configs:
-      - to: ltphilong2001@gmail.com
-        from: ltphilong2001@gmail.com
-        smarthost: smtp.gmail.com:587
-        auth_username: ltphilong2001@gmail.com
-        auth_identity: ltphilong2001@gmail.com
-        auth_password: qykzikifoybqiibg
-        send_resolved: true
-
+    - name: 'null'
+    templates:
+    - '/etc/alertmanager/config/*.tmpl'
 
   ## Alertmanager configuration directives (as string type, preferred over the config hash map)
   ## stringConfig will be used only, if tplConfig is true
@@ -401,6 +428,42 @@ alertmanager:
     # - secretName: alertmanager-general-tls
     #   hosts:
     #   - alertmanager.example.com
+
+  # -- BETA: Configure the gateway routes for the chart here.
+  # More routes can be added by adding a dictionary key like the 'main' route.
+  # Be aware that this is an early beta of this feature,
+  # kube-prometheus-stack does not guarantee this works and is subject to change.
+  # Being BETA this can/will change in the future without notice, do not use unless you want to take that risk
+  # [[ref]](https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io%2fv1alpha2)
+  route:
+    main:
+      # -- Enables or disables the route
+      enabled: false
+
+      # -- Set the route apiVersion, e.g. gateway.networking.k8s.io/v1 or gateway.networking.k8s.io/v1alpha2
+      apiVersion: gateway.networking.k8s.io/v1
+      # -- Set the route kind
+      # Valid options are GRPCRoute, HTTPRoute, TCPRoute, TLSRoute, UDPRoute
+      kind: HTTPRoute
+
+      annotations: {}
+      labels: {}
+
+      hostnames: []
+      # - my-filter.example.com
+      parentRefs: []
+      # - name: acme-gw
+
+      matches:
+        - path:
+            type: PathPrefix
+            value: /
+
+      ## Filters define the filters that are applied to requests that match this rule.
+      filters: []
+
+      ## Additional custom rules that can be added to the route
+      additionalRules: []
 
   ## Configuration for Alertmanager secret
   ##
@@ -722,7 +785,7 @@ alertmanager:
 
     ## Size is the expected size of the alertmanager cluster. The controller will eventually make the size of the
     ## running cluster equal to the expected size.
-    replicas: 2
+    replicas: 1
 
     ## Time duration Alertmanager shall retain data for. Default is '120h', and must match the regular expression
     ## [0-9]+(ms|s|m|h) (milliseconds seconds minutes hours).
@@ -733,14 +796,14 @@ alertmanager:
     ## ref: https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/user-guides/storage.md
     ##
     storage: {}
-    volumeClaimTemplate:
-      spec:
-        storageClassName: "gp2"
-        accessModes: ["ReadWriteOnce"]
-        resources:
-          requests:
-            storage: 10Gi
-        selector: {}
+    # volumeClaimTemplate:
+    #   spec:
+    #     storageClassName: gluster
+    #     accessModes: ["ReadWriteOnce"]
+    #     resources:
+    #       requests:
+    #         storage: 50Gi
+    #   selector: {}
 
 
     ## The external URL the Alertmanager instances will be available under. This is necessary to generate correct URLs. This is necessary if Alertmanager is not served from root of a DNS name. string  false
@@ -780,7 +843,7 @@ alertmanager:
     ## The value "hard" means that the scheduler is *required* to not schedule two replica pods onto the same node.
     ## The value "" will disable pod anti-affinity so that no anti-affinity rules will be configured.
     ##
-    podAntiAffinity: ""
+    podAntiAffinity: "soft"
 
     ## If anti-affinity is enabled sets the topologyKey to use for anti-affinity.
     ## This can be changed to, for example, failure-domain.beta.kubernetes.io/zone
@@ -896,6 +959,9 @@ alertmanager:
     ## Needs to be specified as GoDuration, a time duration that can be parsed by Go’s time.ParseDuration() (e.g. 45ms, 30s, 1m, 1h20m15s)
     clusterPushpullInterval: ""
 
+    ## clusterLabel defines the identifier that uniquely identifies the Alertmanager cluster.
+    clusterLabel: ""
+
     ## ForceEnableClusterMode ensures Alertmanager does not deactivate the cluster mode when running with a single replica.
     ## Use case is e.g. spanning an Alertmanager cluster across Kubernetes clusters with a single replica in each.
     forceEnableClusterMode: false
@@ -950,7 +1016,7 @@ grafana:
   ##
   defaultDashboardsEditable: true
 
-  adminPassword: admin
+  adminPassword: prom-operator
 
   rbac:
     ## If true, Grafana PSPs will be created
@@ -1093,7 +1159,8 @@ grafana:
   # - name: prometheus-sample
   #   access: proxy
   #   basicAuth: true
-  #   basicAuthPassword: pass
+  #   secureJsonData:
+  #       basicAuthPassword: pass
   #   basicAuthUser: daco
   #   editable: false
   #   jsonData:
@@ -1103,10 +1170,17 @@ grafana:
   #   url: https://{{ printf "%s-prometheus.svc" .Release.Name }}:9090
   #   version: 1
 
+  # Flag to mark provisioned data sources for deletion if they are no longer configured.
+  # It takes no effect if data sources are already listed in the deleteDatasources section.
+  # ref: https://grafana.com/docs/grafana/latest/administration/provisioning/#example-data-source-config-file
+  prune: false
+
   ## Passed to grafana subchart and used by servicemonitor below
   ##
   service:
     portName: http-web
+    ipFamilies: []
+    ipFamilyPolicy: ""
 
   serviceMonitor:
     # If true, a ServiceMonitor CRD is created for a prometheus operator
@@ -1219,6 +1293,10 @@ kubeApiServer:
     ##
     additionalLabels: {}
     #  foo: bar
+
+    ## defines the labels which are transferred from the associated Kubernetes Service object onto the ingested metrics.
+    ## https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api.md#servicemonitor
+    targetLabels: []
 
 ## Component scraping the kubelet and kubelet-hosted cAdvisor
 ##
@@ -1426,6 +1504,10 @@ kubelet:
     additionalLabels: {}
     #  foo: bar
 
+    ## defines the labels which are transferred from the associated Kubernetes Service object onto the ingested metrics.
+    ## https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api.md#servicemonitor
+    targetLabels: []
+
 ## Component scraping the kube controller manager
 ##
 kubeControllerManager:
@@ -1529,6 +1611,10 @@ kubeControllerManager:
     additionalLabels: {}
     #  foo: bar
 
+    ## defines the labels which are transferred from the associated Kubernetes Service object onto the ingested metrics.
+    ## https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api.md#servicemonitor
+    targetLabels: []
+
 ## Component scraping coreDns. Use either this or kubeDns
 ##
 coreDns:
@@ -1606,6 +1692,10 @@ coreDns:
     ##
     additionalLabels: {}
     #  foo: bar
+
+    ## defines the labels which are transferred from the associated Kubernetes Service object onto the ingested metrics.
+    ## https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api.md#servicemonitor
+    targetLabels: []
 
 ## Component scraping kubeDns. Use either this or coreDns
 ##
@@ -1700,6 +1790,10 @@ kubeDns:
     ##
     additionalLabels: {}
     #  foo: bar
+
+    ## defines the labels which are transferred from the associated Kubernetes Service object onto the ingested metrics.
+    ## https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api.md#servicemonitor
+    targetLabels: []
 
 ## Component scraping etcd
 ##
@@ -1806,6 +1900,10 @@ kubeEtcd:
     additionalLabels: {}
     #  foo: bar
 
+    ## defines the labels which are transferred from the associated Kubernetes Service object onto the ingested metrics.
+    ## https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api.md#servicemonitor
+    targetLabels: []
+
 ## Component scraping kube scheduler
 ##
 kubeScheduler:
@@ -1908,6 +2006,10 @@ kubeScheduler:
     additionalLabels: {}
     #  foo: bar
 
+    ## defines the labels which are transferred from the associated Kubernetes Service object onto the ingested metrics.
+    ## https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api.md#servicemonitor
+    targetLabels: []
+
 ## Component scraping kube proxy
 ##
 kubeProxy:
@@ -1996,6 +2098,10 @@ kubeProxy:
     additionalLabels: {}
     #  foo: bar
 
+    ## defines the labels which are transferred from the associated Kubernetes Service object onto the ingested metrics.
+    ## https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api.md#servicemonitor
+    targetLabels: []
+
 ## Component scraping kube state metrics
 ##
 kubeStateMetrics:
@@ -2077,6 +2183,8 @@ nodeExporter:
   operatingSystems:
     linux:
       enabled: true
+    aix:
+      enabled: true
     darwin:
       enabled: true
 
@@ -2102,6 +2210,9 @@ prometheus-node-exporter:
       enabled: false
       ipFamilies: ["IPv6", "IPv4"]
       ipFamilyPolicy: "PreferDualStack"
+    labels:
+      jobLabel: node-exporter
+
   prometheus:
     monitor:
       enabled: true
@@ -2190,6 +2301,25 @@ prometheusOperator:
     # The default webhook port is 10250 in order to work out-of-the-box in GKE private clusters and avoid adding firewall rules.
     internalPort: 10250
 
+  ## Liveness probe for the prometheusOperator deployment
+  ##
+  livenessProbe:
+    enabled: true
+    failureThreshold: 3
+    initialDelaySeconds: 0
+    periodSeconds: 10
+    successThreshold: 1
+    timeoutSeconds: 1
+  ## Readiness probe for the prometheusOperator deployment
+  ##
+  readinessProbe:
+    enabled: true
+    failureThreshold: 3
+    initialDelaySeconds: 0
+    periodSeconds: 10
+    successThreshold: 1
+    timeoutSeconds: 1
+
   ## Admission webhook support for PrometheusRules resources added in Prometheus Operator 0.30 can be enabled to prevent incorrectly formatted
   ## rules from making their way into prometheus and potentially preventing the container from starting
   admissionWebhooks:
@@ -2213,6 +2343,13 @@ prometheusOperator:
     namespaceSelector: {}
     objectSelector: {}
 
+    mutatingWebhookConfiguration:
+      annotations: {}
+      #   argocd.argoproj.io/hook: PreSync
+
+    validatingWebhookConfiguration:
+      annotations: {}
+      #   argocd.argoproj.io/hook: PreSync
 
     deployment:
       enabled: false
@@ -2247,6 +2384,7 @@ prometheusOperator:
       ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/
       ##
       serviceAccount:
+        annotations: {}
         automountServiceAccountToken: false
         create: true
         name: ""
@@ -2468,6 +2606,7 @@ prometheusOperator:
       ##
       serviceAccount:
         create: true
+        annotations: {}
         automountServiceAccountToken: true
 
     # Security context for create job container
@@ -2549,6 +2688,7 @@ prometheusOperator:
     create: true
     name: ""
     automountServiceAccountToken: true
+    annotations: {}
 
   ## Configuration for Prometheus operator service
   ##
@@ -2628,6 +2768,16 @@ prometheusOperator:
     selector: ""
     ## Use '{{ template "kube-prometheus-stack.fullname" . }}-kubelet' by default
     name: ""
+
+  ## Create Endpoints objects for kubelet targets.
+  kubeletEndpointsEnabled: true
+  ## Create EndpointSlice objects for kubelet targets.
+  kubeletEndpointSliceEnabled: false
+
+  ## Extra arguments to pass to prometheusOperator
+  # https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/operator.md
+  extraArgs: []
+  #  - --labels="cluster=talos-cluster"
 
   ## Create a servicemonitor for the operator
   ##
@@ -2843,7 +2993,7 @@ prometheusOperator:
   thanosImage:
     registry: quay.io
     repository: thanos/thanos
-    tag: v0.35.0
+    tag: v0.36.1
     sha: ""
 
   ## Set a Label Selector to filter watched prometheus and prometheusAgent
@@ -2936,7 +3086,7 @@ prometheus:
 
     ## Service type
     ##
-    type: Loadbalancer
+    type: ClusterIP
 
     ## Service dual stack
     ##
@@ -3226,6 +3376,42 @@ prometheus:
       #   hosts:
       #     - prometheus.example.com
 
+  # -- BETA: Configure the gateway routes for the chart here.
+  # More routes can be added by adding a dictionary key like the 'main' route.
+  # Be aware that this is an early beta of this feature,
+  # kube-prometheus-stack does not guarantee this works and is subject to change.
+  # Being BETA this can/will change in the future without notice, do not use unless you want to take that risk
+  # [[ref]](https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io%2fv1alpha2)
+  route:
+    main:
+      # -- Enables or disables the route
+      enabled: false
+
+      # -- Set the route apiVersion, e.g. gateway.networking.k8s.io/v1 or gateway.networking.k8s.io/v1alpha2
+      apiVersion: gateway.networking.k8s.io/v1
+      # -- Set the route kind
+      # Valid options are GRPCRoute, HTTPRoute, TCPRoute, TLSRoute, UDPRoute
+      kind: HTTPRoute
+
+      annotations: {}
+      labels: {}
+
+      hostnames: []
+      # - my-filter.example.com
+      parentRefs: []
+      # - name: acme-gw
+
+      matches:
+      - path:
+          type: PathPrefix
+          value: /
+
+      ## Filters define the filters that are applied to requests that match this rule.
+      filters: []
+
+      ## Additional custom rules that can be added to the route
+      additionalRules: []
+
   ## Configuration for creating an Ingress that will map to each Prometheus replica service
   ## prometheus.servicePerReplica must be enabled
   ##
@@ -3357,6 +3543,12 @@ prometheus:
 
     ## If true, pass --storage.tsdb.max-block-duration=2h to prometheus. This is already done if using Thanos
     ##
+    ## AutomountServiceAccountToken indicates whether a service account token should be automatically mounted in the pod,
+    ## If the field isn’t set, the operator mounts the service account token by default.
+    ## Warning: be aware that by default, Prometheus requires the service account token for Kubernetes service discovery,
+    ## It is possible to use strategic merge patch to project the service account token into the ‘prometheus’ container.
+    automountServiceAccountToken: true
+
     disableCompaction: false
     ## APIServerConfig
     ## ref: https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api.md#apiserverconfig
@@ -3376,6 +3568,16 @@ prometheus:
     ## Number of seconds to wait for target to respond before erroring
     ##
     scrapeTimeout: ""
+
+    ## List of scrape classes to expose to scraping objects such as
+    ## PodMonitors, ServiceMonitors, Probes and ScrapeConfigs.
+    ##
+    scrapeClasses: []
+    # - name: istio-mtls
+    #   default: false
+    #   tlsConfig:
+    #     caFile: /etc/prometheus/secrets/istio.default/root-cert.pem
+    #     certFile: /etc/prometheus/secrets/istio.default/cert-chain.pem
 
     ## Interval between consecutive evaluations.
     ##
@@ -3417,7 +3619,7 @@ prometheus:
     image:
       registry: quay.io
       repository: prometheus/prometheus
-      tag: v2.52.0
+      tag: v2.55.1
       sha: ""
 
     ## Tolerations for use with node taints
@@ -3608,6 +3810,9 @@ prometheus:
     ## prometheus resource to be created with selectors based on values in the helm deployment,
     ## which will also match the scrapeConfigs created
     ##
+    ## If null and scrapeConfigSelector is also null, exclude field from the prometheusSpec
+    ## (keeping downward compatibility with older versions of CRD)
+    ##
     scrapeConfigSelectorNilUsesHelmValues: true
 
     ## scrapeConfigs to be selected for target discovery.
@@ -3620,6 +3825,7 @@ prometheus:
     #     prometheus: somelabel
 
     ## If nil, select own namespace. Namespaces to be selected for scrapeConfig discovery.
+    ## If null, exclude the field from the prometheusSpec (keeping downward compatibility with older versions of CRD)
     scrapeConfigNamespaceSelector: {}
     ## Example which selects scrapeConfig in namespaces with label "prometheus" set to "somelabel"
     # scrapeConfigNamespaceSelector:
@@ -3686,7 +3892,7 @@ prometheus:
     ## The default value "soft" means that the scheduler should *prefer* to not schedule two replica pods onto the same node but no guarantee is provided.
     ## The value "hard" means that the scheduler is *required* to not schedule two replica pods onto the same node.
     ## The value "" will disable pod anti-affinity so that no anti-affinity rules will be configured.
-    podAntiAffinity: ""
+    podAntiAffinity: "soft"
 
     ## If anti-affinity is enabled sets the topologyKey to use for anti-affinity.
     ## This can be changed to, for example, failure-domain.beta.kubernetes.io/zone
@@ -3733,17 +3939,17 @@ prometheus:
     ## Prometheus StorageSpec for persistent data
     ## ref: https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/user-guides/storage.md
     ##
-    storageSpec: {}
+    storageSpec:
     ## Using PersistentVolumeClaim
     ##
-    #  volumeClaimTemplate:
-    #    spec:
-    #      storageClassName: gluster
-    #      accessModes: ["ReadWriteOnce"]
-    #      resources:
-    #        requests:
-    #          storage: 50Gi
-    #    selector: {}
+     volumeClaimTemplate:
+       spec:
+         storageClassName: gp2
+         accessModes: ["ReadWriteOnce"]
+         resources:
+           requests:
+             storage: 10Gi
+      #  selector: {}
 
     ## Using tmpfs volume
     ##
@@ -3768,7 +3974,7 @@ prometheus:
     ## The scrape configuration example below will find master nodes, provided they have the name .*mst.*, relabel the
     ## port to 2379 and allow etcd scraping provided it is running on all Kubernetes master nodes
     ##
-    additionalScrapeConfigs:
+    additionalScrapeConfigs: 
     - job_name: kong-monitoring
       metrics_path: /metrics
       static_configs:
@@ -3778,7 +3984,7 @@ prometheus:
       metrics_path: /metrics
       static_configs:
         - targets:
-          - my-release-argo-rollouts-metrics.argocd-rollout.svc.cluster.local:8090
+          - my-release-argo-rollouts-metrics.argocd-rollout.svc.cluster.local.8090
     # - job_name: kube-etcd
     #   kubernetes_sd_configs:
     #     - role: node
@@ -3975,7 +4181,7 @@ prometheus:
     ## Disabled by default
     enforcedNamespaceLabel: ""
 
-    ## PrometheusRulesExcludedFromEnforce - list of prometheus rules to be excluded from enforcing of adding namespace labels.
+   ## PrometheusRulesExcludedFromEnforce - list of prometheus rules to be excluded from enforcing of adding namespace labels.
     ## Works only if enforcedNamespaceLabel set to true. Make sure both ruleNamespace and ruleName are set for each pair
     ## Deprecated, use `excludedFromEnforcement` instead
     prometheusRulesExcludedFromEnforce: []
@@ -4054,6 +4260,10 @@ prometheus:
     ## See https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api.md#prometheustracingconfig
     tracingConfig: {}
 
+    ## Defines the service discovery role used to discover targets from ServiceMonitor objects and Alertmanager endpoints.
+    ## If set, the value should be either “Endpoints” or “EndpointSlice”. If unset, the operator assumes the “Endpoints” role.
+    serviceDiscoveryRole: ""
+
     ## Additional configuration which is not covered by the properties above. (passed through tpl)
     additionalConfig: {}
 
@@ -4065,7 +4275,7 @@ prometheus:
     ## Defines the maximum time that the `prometheus` container's startup probe
     ## will wait before being considered failed. The startup probe will return
     ## success after the WAL replay is complete. If set, the value should be
-    ## greater than 60 (seconds). Otherwise it will be equal to 600 seconds (15
+    ## greater than 60 (seconds). Otherwise it will be equal to 900 seconds (15
     ## minutes).
     maximumStartupDurationSeconds: 0
 
@@ -4101,6 +4311,18 @@ prometheus:
     ## Label selector for services to which this ServiceMonitor applies
     ##
     # selector: {}
+      ## Example which selects all services to be monitored
+      ## with label "monitoredby" with values any of "example-service-1" or "example-service-2"
+      # matchExpressions:
+      #   - key: "monitoredby"
+      #     operator: In
+      #     values:
+      #       - example-service-1
+      #       - example-service-2
+
+      ## label selector for services
+      ##
+      # matchLabels: {}
 
     ## Namespaces from which services are selected
     ##
@@ -4201,6 +4423,18 @@ prometheus:
     ## Label selector for pods to which this PodMonitor applies
     ##
     # selector: {}
+      ## Example which selects all Pods to be monitored
+      ## with label "monitoredby" with values any of "example-pod-1" or "example-pod-2"
+      # matchExpressions:
+      #   - key: "monitoredby"
+      #     operator: In
+      #     values:
+      #       - example-pod-1
+      #       - example-pod-2
+
+      ## label selector for pods
+      ##
+      # matchLabels: {}
 
     ## PodTargetLabels transfers labels on the Kubernetes Pod onto the target.
     ##
@@ -4287,6 +4521,42 @@ thanosRuler:
     # - secretName: thanosruler-general-tls
     #   hosts:
     #   - thanosruler.example.com
+
+  # -- BETA: Configure the gateway routes for the chart here.
+  # More routes can be added by adding a dictionary key like the 'main' route.
+  # Be aware that this is an early beta of this feature,
+  # kube-prometheus-stack does not guarantee this works and is subject to change.
+  # Being BETA this can/will change in the future without notice, do not use unless you want to take that risk
+  # [[ref]](https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io%2fv1alpha2)
+  route:
+    main:
+      # -- Enables or disables the route
+      enabled: false
+
+      # -- Set the route apiVersion, e.g. gateway.networking.k8s.io/v1 or gateway.networking.k8s.io/v1alpha2
+      apiVersion: gateway.networking.k8s.io/v1
+      # -- Set the route kind
+      # Valid options are GRPCRoute, HTTPRoute, TCPRoute, TLSRoute, UDPRoute
+      kind: HTTPRoute
+
+      annotations: {}
+      labels: {}
+
+      hostnames: []
+      # - my-filter.example.com
+      parentRefs: []
+      # - name: acme-gw
+
+      matches:
+        - path:
+            type: PathPrefix
+            value: /
+
+      ## Filters define the filters that are applied to requests that match this rule.
+      filters: []
+
+      ## Additional custom rules that can be added to the route
+      additionalRules: []
 
   ## Configuration for ThanosRuler service
   ##
@@ -4415,7 +4685,7 @@ thanosRuler:
     image:
       registry: quay.io
       repository: thanos/thanos
-      tag: v0.35.0
+      tag: v0.36.1
       sha: ""
 
     ## Namespaces to be selected for PrometheusRules discovery.
@@ -4490,7 +4760,7 @@ thanosRuler:
       existingSecret: {}
         # name: ""
         # key: ""
-      # will render render alertmanagersConfig secret data and configure it to be used by Thanos Ruler custom resource, ignored when alertmanagersConfig.existingSecret is set
+      # will render alertmanagersConfig secret data and configure it to be used by Thanos Ruler custom resource, ignored when alertmanagersConfig.existingSecret is set
       # https://thanos.io/tip/components/rule.md/#alertmanager
       secret: {}
         # alertmanagers:
@@ -4602,7 +4872,7 @@ thanosRuler:
     ## The value "hard" means that the scheduler is *required* to not schedule two replica pods onto the same node.
     ## The value "" will disable pod anti-affinity so that no anti-affinity rules will be configured.
     ##
-    podAntiAffinity: ""
+    podAntiAffinity: "soft"
 
     ## If anti-affinity is enabled sets the topologyKey to use for anti-affinity.
     ## This can be changed to, for example, failure-domain.beta.kubernetes.io/zone
@@ -4682,6 +4952,10 @@ thanosRuler:
     ##
     portName: "web"
 
+    ## WebTLSConfig defines the TLS parameters for HTTPS
+    ## ref: https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api.md#thanosrulerwebspec
+    web: {}
+
     ## Additional configuration which is not covered by the properties above. (passed through tpl)
     additionalConfig: {}
 
@@ -4713,3 +4987,4 @@ extraManifests: []
   #     name: prometheus-extra
   #   data:
   #     extra-data: "value"
+

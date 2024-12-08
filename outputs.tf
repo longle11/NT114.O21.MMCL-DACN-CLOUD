@@ -52,12 +52,6 @@ output "node_group_private_arn" {
   value       = aws_eks_node_group.eks_nodegroup_private.arn
 }
 
-//dns name for ingress nginx controller
-output "dns_ingress_controller" {
-    description = "DNS for ingress nginx controller"
-    value = data.kubernetes_service_v1.ingress_controller.status[0].load_balancer[0].ingress[0].hostname
-}
-
 //keypair output
 
 output "private_key" {

@@ -88,6 +88,10 @@ deployment:
 # e.g. setting pg_user here will override the value normally set when postgresql.enabled
 # is set below. In general, you should not set values here if they are set elsewhere.
 env:
+  admin_gui_url: "http://manager-kong.khoaluantotnghiep.click:8001"
+  admin_gui_api_url: "http://admin-kong.khoaluantotnghiep.click:8002"
+  admin_listen: "127.0.0.1:8004 ssl"
+  log_level: debug
   database: postgres
   pg_database: kong
   pg_ssl: "off"
@@ -175,7 +179,7 @@ admin:
 
   tls:
     # Enable HTTPS listen for the admin API
-    enabled: false
+    enabled: true
     servicePort: 8444
     containerPort: 8444
     # Set a target port for the TLS port in the admin API service, useful when using TLS
@@ -466,6 +470,7 @@ secretVolumes: []
 
 # Enable/disable migration jobs, and set annotations for them
 migrations:
+  enabled: true
   # Enable pre-upgrade migrations (run "kong migrations up")
   preUpgrade: true
   # Enable post-upgrade migrations (run "kong migrations finish")
@@ -497,6 +502,8 @@ migrations:
   # sidecarContainers:
   #   - name: sidecar
   #     image: sidecar:latest
+
+namespace: kong
 
 # Kong's configuration for DB-less mode
 # Note: Use this section only if you are deploying Kong in DB-less mode
@@ -566,6 +573,8 @@ ingressController:
     # generates self-signed certificates by default. Set this to false once you
     # have installed CA-signed certificates.
     kong_admin_tls_skip_verify: true
+    kong_admin_init_retries: 5
+    kong_admin_init_retry_delay: '20s'
     # If using Kong Enterprise with RBAC enabled, uncomment the section below
     # and specify the secret/key containing your admin token.
     # kong_admin_token:
