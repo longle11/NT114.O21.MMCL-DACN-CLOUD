@@ -98,6 +98,14 @@ resource "aws_iam_group_policy" "iam_group_dev_assume_role_policy" {
     })
 }
 
+
+# Resource: k8s namespace
+resource "kubernetes_namespace" "k8s_dev" {
+  metadata {
+    name = "dev"
+  }
+}
+
 //create kubernetes cluster role and cluster role binding resources
 resource "kubernetes_cluster_role_v1" "eks_dev_cluster_role" {
     #checkov:skip=CKV_K8S_49
@@ -107,7 +115,7 @@ resource "kubernetes_cluster_role_v1" "eks_dev_cluster_role" {
 
     rule {
         api_groups = [""]   //default is cors
-        resources  = ["namespaces", "pods", "nodes", "events", "services"]
+        resources  = ["namespaces", "pods", "nodes", "eevnts", "services"]
         verbs      = ["get", "list"]
     }
     rule {
@@ -136,13 +144,6 @@ resource "kubernetes_cluster_role_binding_v1" "eks_dev_cluster_role_binding" {
         name      = "eks-dev-group"
         api_group = "rbac.authorization.k8s.io"
     }
-}
-
-# Resource: k8s namespace
-resource "kubernetes_namespace" "k8s_dev" {
-  metadata {
-    name = "dev"
-  }
 }
 
 //create role and role binding resources

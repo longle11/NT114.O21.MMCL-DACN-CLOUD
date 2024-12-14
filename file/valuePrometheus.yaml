@@ -307,43 +307,25 @@ alertmanager:
   config:
     global:
       resolve_timeout: 5m
-    inhibit_rules:
-      - source_matchers:
-          - 'severity = critical'
-        target_matchers:
-          - 'severity =~ warning|info'
-        equal:
-          - 'namespace'
-          - 'alertname'
-      - source_matchers:
-          - 'severity = warning'
-        target_matchers:
-          - 'severity = info'
-        equal:
-          - 'namespace'
-          - 'alertname'
-      - source_matchers:
-          - 'alertname = InfoInhibitor'
-        target_matchers:
-          - 'severity = info'
-        equal:
-          - 'namespace'
-      - target_matchers:
-          - 'alertname = InfoInhibitor'
     route:
-      group_by: ['namespace']
-      group_wait: 30s
-      group_interval: 5m
-      repeat_interval: 12h
-      receiver: 'null'
+      receiver: 'email-alert'
+      group_by: ['severity']
+
       routes:
-      - receiver: 'null'
-        matchers:
-          - alertname = "Watchdog"
+      - receiver: 'email-alert'
+        group_wait: 30s
+        group_interval: 5m
+        repeat_interval: 12h  
+
     receivers:
-    - name: 'null'
-    templates:
-    - '/etc/alertmanager/config/*.tmpl'
+    - name: email-alert
+      email_configs:
+      - to: ltphilong2001@gmail.com
+        from: ltphilong2001@gmail.com
+        smarthost: smtp.gmail.com:587
+        auth_username: ltphilong2001@gmail.com
+        auth_identity: ltphilong2001@gmail.com
+        auth_password:  tempcode
 
   ## Alertmanager configuration directives (as string type, preferred over the config hash map)
   ## stringConfig will be used only, if tplConfig is true
@@ -524,7 +506,7 @@ alertmanager:
       enabled: false
       ipFamilies: ["IPv6", "IPv4"]
       ipFamilyPolicy: "PreferDualStack"
-
+    ipFamilies: ["IPv4"]
     ## Port for Alertmanager Service to listen on
     ##
     port: 9093
@@ -785,7 +767,7 @@ alertmanager:
 
     ## Size is the expected size of the alertmanager cluster. The controller will eventually make the size of the
     ## running cluster equal to the expected size.
-    replicas: 1
+    replicas: 2
 
     ## Time duration Alertmanager shall retain data for. Default is '120h', and must match the regular expression
     ## [0-9]+(ms|s|m|h) (milliseconds seconds minutes hours).
@@ -3164,7 +3146,7 @@ prometheus:
 
     ## Service type
     ##
-    type: LoadBalancer
+    type: ClusterIP
 
     ## Port to expose on each node
     ##
