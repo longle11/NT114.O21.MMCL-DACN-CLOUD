@@ -325,7 +325,7 @@ alertmanager:
         smarthost: smtp.gmail.com:587
         auth_username: ltphilong2001@gmail.com
         auth_identity: ltphilong2001@gmail.com
-        auth_password:  tempcode
+        auth_password: tempcode
 
   ## Alertmanager configuration directives (as string type, preferred over the config hash map)
   ## stringConfig will be used only, if tplConfig is true
