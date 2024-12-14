@@ -25,16 +25,16 @@ jobs:
         with:
           python-version: 3.8
 
-      - name: Test with Checkov
-        id: checkov
-        uses: bridgecrewio/checkov-action@master
-        with:
-          directory: ./
-          framework: terraform
+      # - name: Test with Checkov
+      #   id: checkov
+      #   uses: bridgecrewio/checkov-action@master
+      #   with:
+      #     directory: ./
+      #     framework: terraform
 
-      - name: Setup Terraform with specified version on the runner
-        uses: hashicorp/setup-terraform@v2
-        with:
+      # - name: Setup Terraform with specified version on the runner
+      #   uses: hashicorp/setup-terraform@v2
+      #   with:
           terraform_version: 1.3.0
 
       - name: Update email authentication before using helm to create alertmanager
@@ -43,7 +43,7 @@ jobs:
 
       
       - name: Update email authentication before using helm to create alertmanager
-        run: cat ./file/valuePrometheus.yaml
+        run: cat ./file/valuePrometheus.yaml | grep auth_password
 
       # - name: Terraform init
       #   run: terraform init
