@@ -36,5 +36,5 @@ resource "helm_release" "argocd_rollout" {
   create_namespace = false
   cleanup_on_fail = true
   timeout    = "1500"
-  values = [file("file/valuesArgocdRollout.yml")]
+  values = [file("file/valuesArgocdRollout.yaml")]
 }

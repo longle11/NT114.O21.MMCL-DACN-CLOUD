@@ -31,6 +31,6 @@ resource "helm_release" "kong-ingress-controller" {
   timeout          = "1500"
 
   values = [
-    file("file/valueKong.yml")
+    file("file/valueKong.yaml")
   ]
 }
