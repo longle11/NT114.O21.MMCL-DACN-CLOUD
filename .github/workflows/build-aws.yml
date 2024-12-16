@@ -74,7 +74,7 @@ jobs:
           if kubectl get secret -n default | grep "authenticate-registry"; then
             echo "This secret is already existed"
           else
-            kubectl create secret docker-registry kubectl create secret docker-registry authenticate-registry --docker-server=${{ secrets.PRIVATE_DOCKER_URL }} --docker-username=taskscheduler --docker-password=12341234 --docker-email=z45letranphilong@gmail.com -n default --docker-server=portus.nt533uitjiradev.click --docker-username=${{ secrets.PRIVATE_DOCKER_USERNAME }} --docker-password=${{ secrets.PRIVATE_DOCKER_PASS }} --docker-email=${{ secrets.PRIVATE_DOCKER_EMAIL }} -n default
+            kubectl create secret docker-registry authenticate-registry --docker-server=${{ secrets.PRIVATE_DOCKER_URL }} --docker-username=taskscheduler --docker-password=12341234 --docker-email=z45letranphilong@gmail.com -n default --docker-server=portus.nt533uitjiradev.click --docker-username=${{ secrets.PRIVATE_DOCKER_USERNAME }} --docker-password=${{ secrets.PRIVATE_DOCKER_PASS }} --docker-email=${{ secrets.PRIVATE_DOCKER_EMAIL }} -n default || true
           fi
 
       - name: procceeding to create nats streaming server
