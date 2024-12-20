@@ -1,7 +1,7 @@
 {
   "version": 4,
   "terraform_version": "1.3.0",
-  "serial": 0,
+  "serial": 1,
   "lineage": "20f58a92-82ea-2125-4513-8a67e2e0a701",
   "outputs": {
     "aws_iam_openid_connect_provider_extract_from_arn": {
@@ -151,7 +151,7 @@
           "attributes": {
             "id": "ekscluster",
             "name": "ekscluster",
-            "token": "k8s-aws-v1.aHR0cHM6Ly9zdHMudXMtZWFzdC0xLmFtYXpvbmF3cy5jb20vP0FjdGlvbj1HZXRDYWxsZXJJZGVudGl0eSZWZXJzaW9uPTIwMTEtMDYtMTUmWC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBNUZUWkNYR09XR05MV0lFUCUyRjIwMjQxMjIwJTJGdXMtZWFzdC0xJTJGc3RzJTJGYXdzNF9yZXF1ZXN0JlgtQW16LURhdGU9MjAyNDEyMjBUMTQxNzI3WiZYLUFtei1FeHBpcmVzPTAmWC1BbXotU2lnbmVkSGVhZGVycz1ob3N0JTNCeC1rOHMtYXdzLWlkJlgtQW16LVNpZ25hdHVyZT0wNTA0Mjc3MWUyZDgzOGQyOWEwMzJhOWQwZDY2YTJhYzg0YjNhODIyZGI4YTUzM2U1ODRmOWRmYWRjYTIyN2E0"
+            "token": "k8s-aws-v1.aHR0cHM6Ly9zdHMudXMtZWFzdC0xLmFtYXpvbmF3cy5jb20vP0FjdGlvbj1HZXRDYWxsZXJJZGVudGl0eSZWZXJzaW9uPTIwMTEtMDYtMTUmWC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBNUZUWkNYR09XR05MV0lFUCUyRjIwMjQxMjIwJTJGdXMtZWFzdC0xJTJGc3RzJTJGYXdzNF9yZXF1ZXN0JlgtQW16LURhdGU9MjAyNDEyMjBUMTQyOTI5WiZYLUFtei1FeHBpcmVzPTAmWC1BbXotU2lnbmVkSGVhZGVycz1ob3N0JTNCeC1rOHMtYXdzLWlkJlgtQW16LVNpZ25hdHVyZT04NWRmYTk5ZjU0OTA1NmM1MmMzODZkMGExNWM5NDc0MDEyOTU0ZWU5YjZjN2JlMDQ1ZjU0YmU2ZWEzZDdkNDQ4"
           },
           "sensitive_attributes": []
         }
@@ -235,21 +235,21 @@
               "Content-Security-Policy": "default-src 'none'; style-src 'unsafe-inline'; sandbox",
               "Content-Type": "text/plain; charset=utf-8",
               "Cross-Origin-Resource-Policy": "cross-origin",
-              "Date": "Fri, 20 Dec 2024 14:06:56 GMT",
+              "Date": "Fri, 20 Dec 2024 14:29:26 GMT",
               "Etag": "W/\"39407821656c9d288093bd2e93ad0989232fbfd851a6b80d135f7cde617de83c\"",
-              "Expires": "Fri, 20 Dec 2024 14:11:56 GMT",
-              "Source-Age": "13",
+              "Expires": "Fri, 20 Dec 2024 14:34:26 GMT",
+              "Source-Age": "18",
               "Strict-Transport-Security": "max-age=31536000",
               "Vary": "Authorization,Accept-Encoding,Origin",
               "Via": "1.1 varnish",
               "X-Cache": "HIT",
               "X-Cache-Hits": "1",
               "X-Content-Type-Options": "nosniff",
-              "X-Fastly-Request-Id": "44752ef551f666fbe312936f541e3c486713c6d3",
+              "X-Fastly-Request-Id": "99aa952062711638b26637aa8d25c82be7a75a11",
               "X-Frame-Options": "deny",
               "X-Github-Request-Id": "E957:312663:D66861:E81A5C:676579F2",
-              "X-Served-By": "cache-bur-kbur8200039-BUR",
-              "X-Timer": "S1734703617.666445,VS0,VE1",
+              "X-Served-By": "cache-bur-kbur8200068-BUR",
+              "X-Timer": "S1734704966.496945,VS0,VE1",
               "X-Xss-Protection": "1; mode=block"
             },
             "retry": null,
@@ -708,7 +708,7 @@
                 "public_access_cidrs": [
                   "0.0.0.0/0"
                 ],
-                "security_group_ids": null,
+                "security_group_ids": [],
                 "subnet_ids": [
                   "subnet-01085b2d3412f3ebf",
                   "subnet-089c4360de112d825"
@@ -751,7 +751,7 @@
             "instance_types": [
               "t3.large"
             ],
-            "labels": null,
+            "labels": {},
             "launch_template": [],
             "node_group_name": "dev-eks-nodegroup-private",
             "node_group_name_prefix": "",
@@ -1079,16 +1079,8 @@
           "sensitive_attributes": [],
           "private": "bnVsbA==",
           "dependencies": [
-            "aws_eks_cluster.eks_cluster",
-            "aws_iam_role.eks_cluster_role",
-            "aws_iam_role_policy_attachment.eks-AmazonEKSClusterPolicy",
-            "aws_iam_role_policy_attachment.eks-AmazonEKSVPCResourceController",
-            "data.aws_availability_zones.available",
             "data.aws_partition.current",
-            "data.tls_certificate.authentication",
-            "module.vpc.aws_subnet.public",
-            "module.vpc.aws_vpc.this",
-            "module.vpc.aws_vpc_ipv4_cidr_block_association.this"
+            "data.tls_certificate.authentication"
           ]
         }
       ]
@@ -1103,7 +1095,7 @@
           "schema_version": 0,
           "attributes": {
             "arn": "arn:aws:iam::905418291613:policy/dev-AmazonEKSClusterAutoscalerPolicy",
-            "attachment_count": 0,
+            "attachment_count": 1,
             "description": "EKS Cluster Autoscaler Policy",
             "id": "arn:aws:iam::905418291613:policy/dev-AmazonEKSClusterAutoscalerPolicy",
             "name": "dev-AmazonEKSClusterAutoscalerPolicy",
@@ -1111,7 +1103,7 @@
             "path": "/",
             "policy": "{\"Statement\":[{\"Action\":[\"autoscaling:DescribeAutoScalingGroups\",\"autoscaling:DescribeAutoScalingInstances\",\"autoscaling:DescribeInstances\",\"autoscaling:DescribeLaunchConfigurations\",\"autoscaling:DescribeTags\",\"autoscaling:SetDesiredCapacity\",\"autoscaling:TerminateInstanceInAutoScalingGroup\",\"ec2:DescribeLaunchTemplateVersions\",\"ec2:DescribeInstanceTypes\"],\"Effect\":\"Allow\",\"Resource\":\"*\"}],\"Version\":\"2012-10-17\"}",
             "policy_id": "ANPA5FTZCXGOTSVZ5ECQZ",
-            "tags": null,
+            "tags": {},
             "tags_all": {}
           },
           "sensitive_attributes": [],
@@ -1129,7 +1121,7 @@
           "schema_version": 0,
           "attributes": {
             "arn": "arn:aws:iam::905418291613:policy/dev-amazonEks-ebs-iam-policy",
-            "attachment_count": 0,
+            "attachment_count": 1,
             "description": "",
             "id": "arn:aws:iam::905418291613:policy/dev-amazonEks-ebs-iam-policy",
             "name": "dev-amazonEks-ebs-iam-policy",
@@ -1137,7 +1129,7 @@
             "path": "/",
             "policy": "{\"Statement\":[{\"Action\":[\"ec2:CreateSnapshot\",\"ec2:AttachVolume\",\"ec2:DetachVolume\",\"ec2:ModifyVolume\",\"ec2:DescribeAvailabilityZones\",\"ec2:DescribeInstances\",\"ec2:DescribeSnapshots\",\"ec2:DescribeTags\",\"ec2:DescribeVolumes\",\"ec2:DescribeVolumesModifications\",\"ec2:EnableFastSnapshotRestores\"],\"Effect\":\"Allow\",\"Resource\":\"*\"},{\"Action\":[\"ec2:CreateTags\"],\"Effect\":\"Allow\",\"Resource\":[\"arn:*:ec2:*:*:volume/*\",\"arn:*:ec2:*:*:snapshot/*\"]},{\"Action\":[\"ec2:DeleteTags\"],\"Effect\":\"Allow\",\"Resource\":[\"arn:*:ec2:*:*:volume/*\",\"arn:*:ec2:*:*:snapshot/*\"]},{\"Action\":[\"ec2:CreateVolume\"],\"Condition\":{\"StringLike\":{\"aws:RequestTag/ebs.csi.aws.com/cluster\":\"true\"}},\"Effect\":\"Allow\",\"Resource\":\"arn:*:ec2:*:*:volume/*\"},{\"Action\":[\"ec2:CreateVolume\"],\"Condition\":{\"StringLike\":{\"aws:RequestTag/CSIVolumeName\":\"*\"}},\"Effect\":\"Allow\",\"Resource\":\"arn:*:ec2:*:*:volume/*\"},{\"Action\":[\"ec2:CreateVolume\"],\"Effect\":\"Allow\",\"Resource\":\"arn:*:ec2:*:*:snapshot/*\"},{\"Action\":[\"ec2:DeleteVolume\"],\"Condition\":{\"StringLike\":{\"ec2:ResourceTag/ebs.csi.aws.com/cluster\":\"true\"}},\"Effect\":\"Allow\",\"Resource\":\"*\"},{\"Action\":[\"ec2:DeleteVolume\"],\"Condition\":{\"StringLike\":{\"ec2:ResourceTag/CSIVolumeName\":\"*\"}},\"Effect\":\"Allow\",\"Resource\":\"*\"},{\"Action\":[\"ec2:DeleteVolume\"],\"Condition\":{\"StringLike\":{\"ec2:ResourceTag/kubernetes.io/created-for/pvc/name\":\"*\"}},\"Effect\":\"Allow\",\"Resource\":\"*\"},{\"Action\":[\"ec2:DeleteSnapshot\"],\"Condition\":{\"StringLike\":{\"ec2:ResourceTag/CSIVolumeSnapshotName\":\"*\"}},\"Effect\":\"Allow\",\"Resource\":\"*\"},{\"Action\":[\"ec2:DeleteSnapshot\"],\"Condition\":{\"StringLike\":{\"ec2:ResourceTag/ebs.csi.aws.com/cluster\":\"true\"}},\"Effect\":\"Allow\",\"Resource\":\"*\"}],\"Version\":\"2012-10-17\"}",
             "policy_id": "ANPA5FTZCXGOQNUGDZE3H",
-            "tags": null,
+            "tags": {},
             "tags_all": {}
           },
           "sensitive_attributes": [],
@@ -1158,7 +1150,7 @@
           "schema_version": 0,
           "attributes": {
             "arn": "arn:aws:iam::905418291613:policy/dev-ingress-kong-controller-policy",
-            "attachment_count": 0,
+            "attachment_count": 1,
             "description": "",
             "id": "arn:aws:iam::905418291613:policy/dev-ingress-kong-controller-policy",
             "name": "dev-ingress-kong-controller-policy",
@@ -1166,7 +1158,7 @@
             "path": "/",
             "policy": "{\"Statement\":[{\"Action\":[\"acm:DescribeCertificate\",\"acm:ListCertificates\",\"acm:GetCertificate\"],\"Effect\":\"Allow\",\"Resource\":\"*\"},{\"Action\":[\"ec2:AuthorizeSecurityGroupIngress\",\"ec2:CreateSecurityGroup\",\"ec2:CreateTags\",\"ec2:DeleteTags\",\"ec2:DeleteSecurityGroup\",\"ec2:DescribeAccountAttributes\",\"ec2:DescribeAddresses\",\"ec2:DescribeInstances\",\"ec2:DescribeInstanceStatus\",\"ec2:DescribeInternetGateways\",\"ec2:DescribeNetworkInterfaces\",\"ec2:DescribeSecurityGroups\",\"ec2:DescribeSubnets\",\"ec2:DescribeTags\",\"ec2:DescribeVpcs\",\"ec2:ModifyInstanceAttribute\",\"ec2:ModifyNetworkInterfaceAttribute\",\"ec2:RevokeSecurityGroupIngress\"],\"Effect\":\"Allow\",\"Resource\":\"*\"},{\"Action\":[\"elasticloadbalancing:AddListenerCertificates\",\"elasticloadbalancing:AddTags\",\"elasticloadbalancing:CreateListener\",\"elasticloadbalancing:CreateLoadBalancer\",\"elasticloadbalancing:CreateRule\",\"elasticloadbalancing:CreateTargetGroup\",\"elasticloadbalancing:DeleteListener\",\"elasticloadbalancing:DeleteLoadBalancer\",\"elasticloadbalancing:DeleteRule\",\"elasticloadbalancing:DeleteTargetGroup\",\"elasticloadbalancing:DeregisterTargets\",\"elasticloadbalancing:DescribeListenerCertificates\",\"elasticloadbalancing:DescribeListeners\",\"elasticloadbalancing:DescribeLoadBalancers\",\"elasticloadbalancing:DescribeLoadBalancerAttributes\",\"elasticloadbalancing:DescribeRules\",\"elasticloadbalancing:DescribeSSLPolicies\",\"elasticloadbalancing:DescribeTags\",\"elasticloadbalancing:DescribeTargetGroups\",\"elasticloadbalancing:DescribeTargetGroupAttributes\",\"elasticloadbalancing:DescribeTargetHealth\",\"elasticloadbalancing:ModifyListener\",\"elasticloadbalancing:ModifyLoadBalancerAttributes\",\"elasticloadbalancing:ModifyRule\",\"elasticloadbalancing:ModifyTargetGroup\",\"elasticloadbalancing:ModifyTargetGroupAttributes\",\"elasticloadbalancing:RegisterTargets\",\"elasticloadbalancing:RemoveListenerCertificates\",\"elasticloadbalancing:RemoveTags\",\"elasticloadbalancing:SetIpAddressType\",\"elasticloadbalancing:SetSecurityGroups\",\"elasticloadbalancing:SetSubnets\",\"elasticloadbalancing:SetWebAcl\"],\"Effect\":\"Allow\",\"Resource\":\"*\"},{\"Action\":[\"iam:CreateServiceLinkedRole\",\"iam:GetServerCertificate\",\"iam:ListServerCertificates\"],\"Effect\":\"Allow\",\"Resource\":\"*\"},{\"Action\":[\"cognito-idp:DescribeUserPoolClient\"],\"Effect\":\"Allow\",\"Resource\":\"*\"},{\"Action\":[\"waf-regional:GetWebACLForResource\",\"waf-regional:GetWebACL\",\"waf-regional:AssociateWebACL\",\"waf-regional:DisassociateWebACL\"],\"Effect\":\"Allow\",\"Resource\":\"*\"},{\"Action\":[\"tag:GetResources\",\"tag:TagResources\"],\"Effect\":\"Allow\",\"Resource\":\"*\"},{\"Action\":[\"waf:GetWebACL\"],\"Effect\":\"Allow\",\"Resource\":\"*\"},{\"Action\":[\"wafv2:GetWebACL\",\"wafv2:GetWebACLForResource\",\"wafv2:AssociateWebACL\",\"wafv2:DisassociateWebACL\"],\"Effect\":\"Allow\",\"Resource\":\"*\"},{\"Action\":[\"shield:DescribeProtection\",\"shield:GetSubscriptionState\",\"shield:DeleteProtection\",\"shield:CreateProtection\",\"shield:DescribeSubscription\",\"shield:ListProtections\"],\"Effect\":\"Allow\",\"Resource\":\"*\"}],\"Version\":\"2012-10-17\"}",
             "policy_id": "ANPA5FTZCXGO5MNGMEM55",
-            "tags": null,
+            "tags": {},
             "tags_all": {}
           },
           "sensitive_attributes": [],
@@ -1190,7 +1182,9 @@
             "force_detach_policies": false,
             "id": "dev-cluster-autoscaler",
             "inline_policy": [],
-            "managed_policy_arns": [],
+            "managed_policy_arns": [
+              "arn:aws:iam::905418291613:policy/dev-AmazonEKSClusterAutoscalerPolicy"
+            ],
             "max_session_duration": 3600,
             "name": "dev-cluster-autoscaler",
             "name_prefix": "",
@@ -1207,17 +1201,9 @@
           "sensitive_attributes": [],
           "private": "bnVsbA==",
           "dependencies": [
-            "aws_eks_cluster.eks_cluster",
             "aws_iam_openid_connect_provider.oidc_provider",
-            "aws_iam_role.eks_cluster_role",
-            "aws_iam_role_policy_attachment.eks-AmazonEKSClusterPolicy",
-            "aws_iam_role_policy_attachment.eks-AmazonEKSVPCResourceController",
-            "data.aws_availability_zones.available",
             "data.aws_partition.current",
-            "data.tls_certificate.authentication",
-            "module.vpc.aws_subnet.public",
-            "module.vpc.aws_vpc.this",
-            "module.vpc.aws_vpc_ipv4_cidr_block_association.this"
+            "data.tls_certificate.authentication"
           ]
         }
       ]
@@ -1238,30 +1224,24 @@
             "force_detach_policies": false,
             "id": "dev-amazonEks-ebs-iam-role",
             "inline_policy": [],
-            "managed_policy_arns": [],
+            "managed_policy_arns": [
+              "arn:aws:iam::905418291613:policy/dev-amazonEks-ebs-iam-policy"
+            ],
             "max_session_duration": 3600,
             "name": "dev-amazonEks-ebs-iam-role",
             "name_prefix": "",
             "path": "/",
             "permissions_boundary": "",
-            "tags": null,
+            "tags": {},
             "tags_all": {},
             "unique_id": "AROA5FTZCXGOXJI5JCNCQ"
           },
           "sensitive_attributes": [],
           "private": "bnVsbA==",
           "dependencies": [
-            "aws_eks_cluster.eks_cluster",
             "aws_iam_openid_connect_provider.oidc_provider",
-            "aws_iam_role.eks_cluster_role",
-            "aws_iam_role_policy_attachment.eks-AmazonEKSClusterPolicy",
-            "aws_iam_role_policy_attachment.eks-AmazonEKSVPCResourceController",
-            "data.aws_availability_zones.available",
             "data.aws_partition.current",
-            "data.tls_certificate.authentication",
-            "module.vpc.aws_subnet.public",
-            "module.vpc.aws_vpc.this",
-            "module.vpc.aws_vpc_ipv4_cidr_block_association.this"
+            "data.tls_certificate.authentication"
           ]
         }
       ]
@@ -1325,13 +1305,16 @@
             "force_detach_policies": false,
             "id": "dev-eks-cluster-role",
             "inline_policy": [],
-            "managed_policy_arns": [],
+            "managed_policy_arns": [
+              "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy",
+              "arn:aws:iam::aws:policy/AmazonEKSVPCResourceController"
+            ],
             "max_session_duration": 3600,
             "name": "dev-eks-cluster-role",
             "name_prefix": "",
             "path": "/",
             "permissions_boundary": "",
-            "tags": null,
+            "tags": {},
             "tags_all": {},
             "unique_id": "AROA5FTZCXGO7KQ2P3HXY"
           },
@@ -1399,13 +1382,19 @@
             "force_detach_policies": false,
             "id": "dev-eks-nodegroup-role",
             "inline_policy": [],
-            "managed_policy_arns": [],
+            "managed_policy_arns": [
+              "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly",
+              "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy",
+              "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy",
+              "arn:aws:iam::aws:policy/AutoScalingFullAccess",
+              "arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy"
+            ],
             "max_session_duration": 3600,
             "name": "dev-eks-nodegroup-role",
             "name_prefix": "",
             "path": "/",
             "permissions_boundary": "",
-            "tags": null,
+            "tags": {},
             "tags_all": {},
             "unique_id": "AROA5FTZCXGOUQFFXIV6J"
           },
@@ -1473,30 +1462,24 @@
             "force_detach_policies": false,
             "id": "dev-ingress-kong-controller-role",
             "inline_policy": [],
-            "managed_policy_arns": [],
+            "managed_policy_arns": [
+              "arn:aws:iam::905418291613:policy/dev-ingress-kong-controller-policy"
+            ],
             "max_session_duration": 3600,
             "name": "dev-ingress-kong-controller-role",
             "name_prefix": "",
             "path": "/",
             "permissions_boundary": "",
-            "tags": null,
+            "tags": {},
             "tags_all": {},
             "unique_id": "AROA5FTZCXGORSXGZKKMD"
           },
           "sensitive_attributes": [],
           "private": "bnVsbA==",
           "dependencies": [
-            "aws_eks_cluster.eks_cluster",
             "aws_iam_openid_connect_provider.oidc_provider",
-            "aws_iam_role.eks_cluster_role",
-            "aws_iam_role_policy_attachment.eks-AmazonEKSClusterPolicy",
-            "aws_iam_role_policy_attachment.eks-AmazonEKSVPCResourceController",
-            "data.aws_availability_zones.available",
             "data.aws_partition.current",
-            "data.tls_certificate.authentication",
-            "module.vpc.aws_subnet.public",
-            "module.vpc.aws_vpc.this",
-            "module.vpc.aws_vpc_ipv4_cidr_block_association.this"
+            "data.tls_certificate.authentication"
           ]
         }
       ]
@@ -1517,19 +1500,11 @@
           "sensitive_attributes": [],
           "private": "bnVsbA==",
           "dependencies": [
-            "aws_eks_cluster.eks_cluster",
             "aws_iam_openid_connect_provider.oidc_provider",
             "aws_iam_policy.cluster_autoscaler_iam_policy",
             "aws_iam_role.cluster_autoscaler_iam_role",
-            "aws_iam_role.eks_cluster_role",
-            "aws_iam_role_policy_attachment.eks-AmazonEKSClusterPolicy",
-            "aws_iam_role_policy_attachment.eks-AmazonEKSVPCResourceController",
-            "data.aws_availability_zones.available",
             "data.aws_partition.current",
-            "data.tls_certificate.authentication",
-            "module.vpc.aws_subnet.public",
-            "module.vpc.aws_vpc.this",
-            "module.vpc.aws_vpc_ipv4_cidr_block_association.this"
+            "data.tls_certificate.authentication"
           ]
         }
       ]
@@ -1550,20 +1525,12 @@
           "sensitive_attributes": [],
           "private": "bnVsbA==",
           "dependencies": [
-            "aws_eks_cluster.eks_cluster",
             "aws_iam_openid_connect_provider.oidc_provider",
             "aws_iam_policy.ebs_iam_policy",
             "aws_iam_role.ebs_iam_role",
-            "aws_iam_role.eks_cluster_role",
-            "aws_iam_role_policy_attachment.eks-AmazonEKSClusterPolicy",
-            "aws_iam_role_policy_attachment.eks-AmazonEKSVPCResourceController",
-            "data.aws_availability_zones.available",
             "data.aws_partition.current",
             "data.http.iam_policy",
-            "data.tls_certificate.authentication",
-            "module.vpc.aws_subnet.public",
-            "module.vpc.aws_vpc.this",
-            "module.vpc.aws_vpc_ipv4_cidr_block_association.this"
+            "data.tls_certificate.authentication"
           ]
         }
       ]
@@ -1731,19 +1698,11 @@
           "sensitive_attributes": [],
           "private": "bnVsbA==",
           "dependencies": [
-            "aws_eks_cluster.eks_cluster",
             "aws_iam_openid_connect_provider.oidc_provider",
             "aws_iam_policy.ingress_kong_controller_policy",
-            "aws_iam_role.eks_cluster_role",
             "aws_iam_role.ingress_controller_iam_role",
-            "aws_iam_role_policy_attachment.eks-AmazonEKSClusterPolicy",
-            "aws_iam_role_policy_attachment.eks-AmazonEKSVPCResourceController",
-            "data.aws_availability_zones.available",
             "data.aws_partition.current",
-            "data.tls_certificate.authentication",
-            "module.vpc.aws_subnet.public",
-            "module.vpc.aws_vpc.this",
-            "module.vpc.aws_vpc_ipv4_cidr_block_association.this"
+            "data.tls_certificate.authentication"
           ]
         }
       ]
@@ -1849,7 +1808,7 @@
             "key_pair_id": "key-00efcfa4fc3b8e740",
             "key_type": "rsa",
             "public_key": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDFGn3qkQiAUWwV+qSl5L3H75ab0xQ6qNMzBAYEAUK9ota+4hD/vrStjGZXNCnTWTA0WasWiPJCINw0OYMJBvhfo23g8pc8k6c6AnLV8DBj2UhFE7915BRMxkasBkuGJp/vusQztmETN6SKiaqTiy2komQAVou4xlVEt/3ih/0iX71NuiLJ+ax2/WdjfiURnT2KPZ30zjgGdoqmk4/qomeTixNohsRWq9WxGAeVxkXh6Z//acAp8VkvKzzNPCHSnekuQCDe3KtRUPN07PPRB5l4KmxyKK6Q7Us/SPlVKTKBXnk5b5hWkC2oCMYEe2tHYEjXkCqjNdnHCn/+GF67tT//",
-            "tags": null,
+            "tags": {},
             "tags_all": {}
           },
           "sensitive_attributes": [],
@@ -1887,7 +1846,7 @@
             "latency_routing_policy": [],
             "multivalue_answer_routing_policy": false,
             "name": "admin-kong.khoaluantotnghiep.click",
-            "records": null,
+            "records": [],
             "set_identifier": "",
             "ttl": 0,
             "type": "A",
@@ -1946,7 +1905,7 @@
             "latency_routing_policy": [],
             "multivalue_answer_routing_policy": false,
             "name": "manager-kong.khoaluantotnghiep.click",
-            "records": null,
+            "records": [],
             "set_identifier": "",
             "ttl": 0,
             "type": "A",
@@ -2005,7 +1964,7 @@
             "latency_routing_policy": [],
             "multivalue_answer_routing_policy": false,
             "name": "www.khoaluantotnghiep.click",
-            "records": null,
+            "records": [],
             "set_identifier": "",
             "ttl": 0,
             "type": "A",
@@ -2119,7 +2078,7 @@
             "name_prefix": "allow_tls",
             "owner_id": "905418291613",
             "revoke_rules_on_delete": false,
-            "tags": null,
+            "tags": {},
             "tags_all": {},
             "timeouts": null,
             "vpc_id": "vpc-008c185615b74dff3"
@@ -2211,6 +2170,92 @@
             "data.aws_availability_zones.available",
             "data.aws_eks_cluster_auth.eks_cluster_auth",
             "kubernetes_namespace.argocd_ns",
+            "module.vpc.aws_subnet.public",
+            "module.vpc.aws_vpc.this",
+            "module.vpc.aws_vpc_ipv4_cidr_block_association.this"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "helm_release",
+      "name": "argocd_rollout",
+      "provider": "provider[\"registry.terraform.io/hashicorp/helm\"]",
+      "instances": [
+        {
+          "schema_version": 1,
+          "attributes": {
+            "atomic": false,
+            "chart": "argo-rollouts",
+            "cleanup_on_fail": true,
+            "create_namespace": false,
+            "dependency_update": false,
+            "description": null,
+            "devel": null,
+            "disable_crd_hooks": false,
+            "disable_openapi_validation": false,
+            "disable_webhooks": false,
+            "force_update": false,
+            "id": "my-release",
+            "keyring": null,
+            "lint": false,
+            "manifest": null,
+            "max_history": 0,
+            "metadata": [
+              {
+                "app_version": "v1.7.2",
+                "chart": "argo-rollouts",
+                "first_deployed": 1734704984,
+                "last_deployed": 1734704984,
+                "name": "my-release",
+                "namespace": "argocd-rollout",
+                "notes": "",
+                "revision": 1,
+                "values": "{\"apiVersionOverrides\":{\"ingress\":\"\"},\"clusterInstall\":true,\"containerSecurityContext\":{\"allowPrivilegeEscalation\":false,\"capabilities\":{\"drop\":[\"ALL\"]},\"readOnlyRootFilesystem\":true,\"seccompProfile\":{\"type\":\"RuntimeDefault\"}},\"controller\":{\"affinity\":{},\"component\":\"rollouts-controller\",\"containerPorts\":{\"healthz\":8080,\"metrics\":8090},\"createClusterRole\":true,\"deploymentAnnotations\":{},\"deploymentLabels\":{},\"extraArgs\":[],\"extraContainers\":[],\"extraEnv\":[],\"image\":{\"pullPolicy\":\"IfNotPresent\",\"registry\":\"quay.io\",\"repository\":\"argoproj/argo-rollouts\",\"tag\":\"\"},\"initContainers\":[],\"livenessProbe\":{\"failureThreshold\":3,\"httpGet\":{\"path\":\"/healthz\",\"port\":\"healthz\"},\"initialDelaySeconds\":30,\"periodSeconds\":20,\"successThreshold\":1,\"timeoutSeconds\":10},\"logging\":{\"format\":\"text\",\"kloglevel\":\"0\",\"level\":\"info\"},\"metricProviderPlugins\":[],\"metrics\":{\"enabled\":true,\"service\":{\"annotations\":{},\"port\":8090,\"portName\":\"metrics\"},\"serviceMonitor\":{\"additionalAnnotations\":{},\"additionalLabels\":{},\"enabled\":true,\"metricRelabelings\":[],\"namespace\":\"\",\"relabelings\":[]}},\"nodeSelector\":{},\"pdb\":{\"annotations\":{},\"enabled\":false,\"labels\":{},\"maxUnavailable\":null,\"minAvailable\":null},\"podAnnotations\":{},\"podLabels\":{},\"priorityClassName\":\"\",\"readinessProbe\":{\"failureThreshold\":3,\"httpGet\":{\"path\":\"/metrics\",\"port\":\"metrics\"},\"initialDelaySeconds\":15,\"periodSeconds\":5,\"successThreshold\":1,\"timeoutSeconds\":4},\"replicas\":2,\"resources\":{},\"tolerations\":[],\"topologySpreadConstraints\":[],\"trafficRouterPlugins\":[],\"volumeMounts\":[],\"volumes\":[]},\"crdAnnotations\":{},\"createClusterAggregateRoles\":true,\"dashboard\":{\"affinity\":{},\"component\":\"rollouts-dashboard\",\"containerSecurityContext\":{},\"createClusterRole\":true,\"deploymentAnnotations\":{},\"deploymentLabels\":{},\"enabled\":true,\"extraArgs\":[],\"extraEnv\":[],\"image\":{\"pullPolicy\":\"IfNotPresent\",\"registry\":\"quay.io\",\"repository\":\"argoproj/kubectl-argo-rollouts\",\"tag\":\"\"},\"ingress\":{\"annotations\":{},\"enabled\":false,\"extraPaths\":[],\"hosts\":[],\"ingressClassName\":\"\",\"labels\":{},\"pathType\":\"Prefix\",\"paths\":[\"/\"],\"tls\":[]},\"logging\":{\"kloglevel\":\"0\",\"level\":\"info\"},\"nodeSelector\":{},\"pdb\":{\"annotations\":{},\"enabled\":false,\"labels\":{},\"maxUnavailable\":null,\"minAvailable\":null},\"podAnnotations\":{},\"podLabels\":{},\"podSecurityContext\":{\"runAsNonRoot\":true},\"priorityClassName\":\"\",\"readonly\":false,\"replicas\":1,\"resources\":{},\"service\":{\"annotations\":{},\"externalIPs\":[],\"labels\":{},\"loadBalancerClass\":\"\",\"loadBalancerIP\":\"\",\"loadBalancerSourceRanges\":[],\"nodePort\":null,\"port\":3100,\"portName\":\"dashboard\",\"targetPort\":3100,\"type\":\"LoadBalancer\"},\"serviceAccount\":{\"annotations\":{},\"create\":true,\"name\":\"\"},\"tolerations\":[],\"topologySpreadConstraints\":[],\"volumeMounts\":[],\"volumes\":[]},\"extraObjects\":[],\"fullnameOverride\":null,\"global\":{\"deploymentAnnotations\":{},\"deploymentLabels\":{},\"revisionHistoryLimit\":10},\"imagePullSecrets\":[],\"installCRDs\":true,\"keepCRDs\":true,\"kubeVersionOverride\":\"\",\"nameOverride\":null,\"notifications\":{\"configmap\":{\"create\":true},\"notifiers\":{},\"secret\":{\"annotations\":{},\"create\":false,\"items\":{}},\"subscriptions\":[],\"templates\":{},\"triggers\":{}},\"podAnnotations\":{},\"podLabels\":{},\"podSecurityContext\":{\"runAsNonRoot\":true},\"providerRBAC\":{\"additionalRules\":[],\"enabled\":true,\"providers\":{\"ambassador\":true,\"apisix\":true,\"awsAppMesh\":true,\"awsLoadBalancerController\":true,\"contour\":true,\"gatewayAPI\":true,\"glooPlatform\":true,\"istio\":true,\"smi\":true,\"traefik\":true}},\"serviceAccount\":{\"annotations\":{},\"create\":true,\"name\":\"\"},\"serviceAnnotations\":{}}",
+                "version": "2.38.0"
+              }
+            ],
+            "name": "my-release",
+            "namespace": "argocd-rollout",
+            "pass_credentials": false,
+            "postrender": [],
+            "recreate_pods": false,
+            "render_subchart_notes": true,
+            "replace": false,
+            "repository": "https://argoproj.github.io/argo-helm",
+            "repository_ca_file": null,
+            "repository_cert_file": null,
+            "repository_key_file": null,
+            "repository_password": null,
+            "repository_username": null,
+            "reset_values": false,
+            "reuse_values": false,
+            "set": [],
+            "set_list": [],
+            "set_sensitive": [],
+            "skip_crds": false,
+            "status": "deployed",
+            "timeout": 1500,
+            "upgrade_install": null,
+            "values": [
+              "# -- Install and upgrade CRDs\ninstallCRDs: true\n# -- Keep CRD's on helm uninstall\nkeepCRDs: true\n\n# -- `false` runs controller in namespaced mode (does not require cluster RBAC)\nclusterInstall: true\n\n# -- flag to enable creation of cluster aggregate roles (requires cluster RBAC)\ncreateClusterAggregateRoles: true\n\n# -- String to partially override \"argo-rollouts.fullname\" template\nnameOverride:\n\n# -- String to fully override \"argo-rollouts.fullname\" template\nfullnameOverride:\n\n## Override APIVersions\n## If you want to template helm charts but cannot access k8s API server\n## you can set api versions here\napiVersionOverrides:\n  # -- String to override apiVersion of ingresses rendered by this helm chart\n  ingress: \"\" # networking.k8s.io/v1beta1\n\n# -- Override the Kubernetes version, which is used to evaluate certain manifests\nkubeVersionOverride: \"\"\n\n# -- Additional manifests to deploy within the chart. A list of objects.\n## Can be used to add secrets for Analysis with 3rd-party monitoring solutions.\nextraObjects: []\n  # - apiVersion: v1\n  #   kind: Secret\n  #   metadata:\n  #     name: datadog\n  #   type: Opaque\n  #   data:\n  #     address: https://api.datadoghq.com\n  #     api-key: \u003cdatadog-api-key\u003e\n  #     app-key: \u003cdatadog-app-key\u003e\n\nglobal:\n  # -- Annotations for all deployed Deployments\n  deploymentAnnotations: {}\n  # -- Labels for all deployed Deployments\n  deploymentLabels: {}\n  # -- Number of old deployment ReplicaSets to retain. The rest will be garbage collected.\n  revisionHistoryLimit: 10\n\ncontroller:\n  # -- Value of label `app.kubernetes.io/component`\n  component: rollouts-controller\n  # -- Annotations to be added to the controller deployment\n  deploymentAnnotations: {}\n  # -- Labels to be added to the controller deployment\n  deploymentLabels: {}\n  # -- Annotations to be added to application controller pods\n  podAnnotations: {}\n  # -- Labels to be added to the application controller pods\n  podLabels: {}\n  # -- [Node selector]\n  nodeSelector: {}\n  # -- [Tolerations] for use with node taints\n  tolerations: []\n  # -- Assign custom [affinity] rules to the deployment\n  affinity: {}\n  logging:\n    # -- Set the logging level (one of: `debug`, `info`, `warn`, `error`)\n    level: info\n    # -- Set the klog logging level\n    kloglevel: \"0\"\n    # -- Set the logging format (one of: `text`, `json`)\n    format: \"text\"\n\n  # -- Assign custom [TopologySpreadConstraints] rules to the controller\n  ## Ref: https://kubernetes.io/docs/concepts/workloads/pods/pod-topology-spread-constraints/\n  ## If labelSelector is left out, it will default to the labelSelector configuration of the deployment\n  topologySpreadConstraints: []\n  # - maxSkew: 1\n  #   topologyKey: topology.kubernetes.io/zone\n  #   whenUnsatisfiable: DoNotSchedule\n\n  # -- [priorityClassName] for the controller\n  priorityClassName: \"\"\n  # -- The number of controller pods to run\n  replicas: 2\n  image:\n    # -- Registry to use\n    registry: quay.io\n    # -- Repository to use\n    repository: argoproj/argo-rollouts\n    # -- Overrides the image tag (default is the chart appVersion)\n    tag: \"\"\n    # -- Image pull policy\n    pullPolicy: IfNotPresent\n\n  # -- Additional command line arguments to pass to rollouts-controller.  A list of flags.\n  extraArgs: []\n\n  # -- Additional environment variables for rollouts-controller. A list of name/value maps.\n  extraEnv: []\n    # - name: AWS_REGION\n    #   value: us-east-1\n\n  # -- Literal yaml for extra containers to be added to controller deployment.\n  ## Additional containers to add to the rollouts controller deployment\n  ## This will be rendered as the literal yaml\n  extraContainers: []\n\n  # -- Init containers to add to the rollouts controller pod\n  ## This will be rendered as the literal yaml\n  initContainers: []\n  #  - name: download-tools\n  #    image: alpine:3.8\n  #    command: [sh, -c]\n  #    args:\n  #      -  ls\n\n  # -- Resource limits and requests for the controller pods.\n  resources: {}\n  #  limits:\n  #    cpu: 100m\n  #    memory: 128Mi\n  #    ephemeral-storage: 1Gi\n  #  requests:\n  #    cpu: 50m\n  #    memory: 64Mi\n\n  # -- flag to enable creation of cluster controller role (requires cluster RBAC)\n  createClusterRole: true\n\n  # Controller container ports\n  containerPorts:\n    # -- Metrics container port\n    metrics: 8090\n    # -- Healthz container port\n    healthz: 8080\n\n  metrics:\n    # -- Deploy metrics service\n    enabled: true\n    service:\n      # -- Metrics service port name\n      portName: metrics\n      # -- Metrics service port\n      port: 8090\n      # -- Service annotations\n      annotations: {}\n    serviceMonitor:\n      # -- Enable a prometheus ServiceMonitor\n      enabled: true\n      # -- Namespace to be used for the ServiceMonitor\n      namespace: \"\"\n      # -- Labels to be added to the ServiceMonitor\n      additionalLabels: {}\n      # -- Annotations to be added to the ServiceMonitor\n      additionalAnnotations: {}\n      # -- RelabelConfigs to apply to samples before scraping\n      relabelings: []\n      # -- MetricRelabelConfigs to apply to samples before ingestion\n      metricRelabelings: []\n\n  # -- Configure liveness [probe] for the controller\n  # @default -- See [values.yaml]\n  livenessProbe:\n    httpGet:\n      path: /healthz\n      port: healthz\n    initialDelaySeconds: 30\n    periodSeconds: 20\n    failureThreshold: 3\n    successThreshold: 1\n    timeoutSeconds: 10\n\n  # -- Configure readiness [probe] for the controller\n  # @default -- See [values.yaml]\n  readinessProbe:\n    httpGet:\n      path: /metrics\n      port: metrics\n    initialDelaySeconds: 15\n    periodSeconds: 5\n    failureThreshold: 3\n    successThreshold: 1\n    timeoutSeconds: 4\n\n  ## Configure Pod Disruption Budget for the controller\n  pdb:\n    # -- Labels to be added to controller [Pod Disruption Budget]\n    labels: {}\n    # -- Annotations to be added to controller [Pod Disruption Budget]\n    annotations: {}\n    # -- Deploy a [Pod Disruption Budget] for the controller\n    enabled: false\n    # -- Minimum number / percentage of pods that should remain scheduled\n    minAvailable: # 1\n    # -- Maximum number / percentage of pods that may be made unavailable\n    maxUnavailable: # 0\n\n  # -- Additional volumes to add to the controller pod\n  volumes: []\n    # - configMap:\n    #     name: my-certs-cm\n    #   name: my-certs\n\n  # -- Additional volumeMounts to add to the controller container\n  volumeMounts: []\n    # - mountPath: /etc/ssl/certs\n    #   name: my-certs\n\n  # -- Configures 3rd party metric providers for controller\n  ## Ref: https://argo-rollouts.readthedocs.io/en/stable/analysis/plugins/\n  metricProviderPlugins: []\n    # - name: \"argoproj-labs/sample-prometheus\" # name of the plugin, it must match the name required by the plugin so that it can find its configuration\n    #   location: \"file://./my-custom-plugin\" # supports http(s):// urls and file://\n\n  # -- Configures 3rd party traffic router plugins for controller\n  ## Ref: https://argo-rollouts.readthedocs.io/en/stable/features/traffic-management/plugins/\n  trafficRouterPlugins: []\n    # - name: \"argoproj-labs/sample-nginx\" # name of the plugin, it must match the name required by the plugin so it can find it's configuration\n    #   location: \"file://./my-custom-plugin\" # supports http(s):// urls and file://\n\nserviceAccount:\n  # -- Specifies whether a service account should be created\n  create: true\n  # -- Annotations to add to the service account\n  annotations: {}\n  # -- The name of the service account to use.\n  # If not set and create is true, a name is generated using the fullname template\n  name: \"\"\n\n# -- Annotations to be added to all CRDs\ncrdAnnotations: {}\n\n# -- Annotations for the all deployed pods\npodAnnotations: {}\n\n# -- Security Context to set on pod level\npodSecurityContext:\n  runAsNonRoot: true\n\n# -- Security Context to set on container level\ncontainerSecurityContext:\n  allowPrivilegeEscalation: false\n  capabilities:\n    drop:\n      - ALL\n  readOnlyRootFilesystem: true\n  seccompProfile:\n    type: RuntimeDefault\n\n# -- Annotations to be added to the Rollout service\nserviceAnnotations: {}\n\n# -- Labels to be added to the Rollout pods\npodLabels: {}\n\n# -- Secrets with credentials to pull images from a private registry. Registry secret names as an array.\nimagePullSecrets: []\n# - name: argo-pull-secret\n\nproviderRBAC:\n  # -- Toggles addition of provider-specific RBAC rules to the controller Role and ClusterRole\n  enabled: true\n  # providerRBAC.enabled must be true in order to toggle the individual providers\n  providers:\n    # -- Adds RBAC rules for the Istio provider\n    istio: true\n    # -- Adds RBAC rules for the SMI provider\n    smi: true\n    # -- Adds RBAC rules for the Ambassador provider\n    ambassador: true\n    # -- Adds RBAC rules for the AWS Load Balancer Controller provider\n    awsLoadBalancerController: true\n    # -- Adds RBAC rules for the AWS App Mesh provider\n    awsAppMesh: true\n    # -- Adds RBAC rules for the Traefik provider\n    traefik: true\n    # -- Adds RBAC rules for the Apisix provider\n    apisix: true\n    # -- Adds RBAC rules for the Contour provider, see `https://github.com/argoproj-labs/rollouts-plugin-trafficrouter-contour/blob/main/README.md`\n    contour: true\n    # -- Adds RBAC rules for the Gloo Platform provider, see `https://github.com/argoproj-labs/rollouts-plugin-trafficrouter-glooplatform/blob/main/README.md`\n    glooPlatform: true\n    # -- Adds RBAC rules for the Gateway API provider\n    gatewayAPI: true\n  # -- Additional RBAC rules for others providers\n  additionalRules: []\n\ndashboard:\n  # -- Deploy dashboard server\n  enabled: true\n  # -- Set cluster role to readonly\n  readonly: false\n  # -- Value of label `app.kubernetes.io/component`\n  component: rollouts-dashboard\n  # -- Annotations to be added to the dashboard deployment\n  deploymentAnnotations: {}\n  # -- Labels to be added to the dashboard deployment\n  deploymentLabels: {}\n  # -- Annotations to be added to application dashboard pods\n  podAnnotations: {}\n  # -- Labels to be added to the application dashboard pods\n  podLabels: {}\n  # -- [Node selector]\n  nodeSelector: {}\n  # -- [Tolerations] for use with node taints\n  tolerations: []\n  # -- Assign custom [affinity] rules to the deployment\n  affinity: {}\n  logging:\n    # -- Set the logging level (one of: `debug`, `info`, `warn`, `error`)\n    level: info\n    # -- Set the klog logging level\n    kloglevel: \"0\"\n\n  # -- Assign custom [TopologySpreadConstraints] rules to the dashboard server\n  ## Ref: https://kubernetes.io/docs/concepts/workloads/pods/pod-topology-spread-constraints/\n  ## If labelSelector is left out, it will default to the labelSelector configuration of the deployment\n  topologySpreadConstraints: []\n  # - maxSkew: 1\n  #   topologyKey: topology.kubernetes.io/zone\n  #   whenUnsatisfiable: DoNotSchedule\n\n  # -- [priorityClassName] for the dashboard server\n  priorityClassName: \"\"\n\n  # -- flag to enable creation of dashbord cluster role (requires cluster RBAC)\n  createClusterRole: true\n\n  # -- The number of dashboard pods to run\n  replicas: 1\n  image:\n    # -- Registry to use\n    registry: quay.io\n    # --  Repository to use\n    repository: argoproj/kubectl-argo-rollouts\n    # -- Overrides the image tag (default is the chart appVersion)\n    tag: \"\"\n    # -- Image pull policy\n    pullPolicy: IfNotPresent\n  # -- Additional command line arguments to pass to rollouts-dashboard. A list of flags.\n  extraArgs: []\n  # -- Additional environment variables for rollouts-dashboard. A list of name/value maps.\n  extraEnv: []\n    # - name: FOO\n    #   value: bar\n  # -- Resource limits and requests for the dashboard pods.\n  resources: {}\n  # -- Security Context to set on pod level\n  podSecurityContext:\n    runAsNonRoot: true\n  # -- Security Context to set on container level\n  containerSecurityContext: {}\n  service:\n    # -- Sets the type of the Service\n    type: LoadBalancer\n    # -- The class of the load balancer implementation\n    loadBalancerClass: \"\"\n    # -- LoadBalancer will get created with the IP specified in this field\n    loadBalancerIP: \"\"\n    # -- Source IP ranges to allow access to service from\n    loadBalancerSourceRanges: []\n    # -- Dashboard service external IPs\n    externalIPs: []\n    # -- Service annotations\n    annotations: {}\n    # -- Service labels\n    labels: {}\n    # -- Service port name\n    portName: dashboard\n    # -- Service port\n    port: 3100\n    # -- Service target port\n    targetPort: 3100\n    # -- (int) Service nodePort\n    nodePort:\n  serviceAccount:\n    # -- Specifies whether a dashboard service account should be created\n    create: true\n    # -- Annotations to add to the dashboard service account\n    annotations: {}\n    # -- The name of the service account to use.\n    # If not set and create is true, a name is generated using the fullname template\n    name: \"\"\n\n  ## Configure Pod Disruption Budget for the dashboard\n  pdb:\n    # -- Labels to be added to dashboard [Pod Disruption Budget]\n    labels: {}\n    # -- Annotations to be added to dashboard [Pod Disruption Budget]\n    annotations: {}\n    # -- Deploy a [Pod Disruption Budget] for the dashboard\n    enabled: false\n    # -- Minimum number / percentage of pods that should remain scheduled\n    minAvailable: # 1\n    # -- Maximum number / percentage of pods that may be made unavailable\n    maxUnavailable: # 0\n\n  ## Ingress configuration.\n  ## ref: https://kubernetes.io/docs/user-guide/ingress/\n  ##\n  ingress:\n    # -- Enable dashboard ingress support\n    enabled: false\n    # -- Dashboard ingress annotations\n    annotations: {}\n    # -- Dashboard ingress labels\n    labels: {}\n    # -- Dashboard ingress class name\n    ingressClassName: \"\"\n\n    # -- Dashboard ingress hosts\n    ## Argo Rollouts Dashboard Ingress.\n    ## Hostnames must be provided if Ingress is enabled.\n    ## Secrets must be manually created in the namespace\n    hosts: []\n      # - argorollouts.example.com\n\n    # -- Dashboard ingress paths\n    paths:\n      - /\n    # -- Dashboard ingress path type\n    pathType: Prefix\n    # -- Dashboard ingress extra paths\n    extraPaths: []\n      # - path: /*\n      #   backend:\n      #     serviceName: ssl-redirect\n      #     servicePort: use-annotation\n      ## for Kubernetes \u003e=1.19 (when \"networking.k8s.io/v1\" is used)\n      # - path: /*\n      #   pathType: Prefix\n      #   backend:\n      #     service\n      #       name: ssl-redirect\n      #       port:\n      #         name: use-annotation\n\n    # -- Dashboard ingress tls\n    tls: []\n      # - secretName: argorollouts-example-tls\n      #   hosts:\n      #     - argorollouts.example.com\n\n  # -- Additional volumes to add to the dashboard pod\n  volumes: []\n\n  # -- Additional volumeMounts to add to the dashboard container\n  volumeMounts: []\n\nnotifications:\n  configmap:\n    # -- Whether to create notifications configmap\n    create: true\n\n  secret:\n    # -- Whether to create notifications secret.\n    ## If you want to manually create secret, do not forget to add proper label to it: \"app.kubernetes.io/component: {{ .Values.controller.component }}\".\n    create: false\n    # -- Generic key:value pairs to be inserted into the notifications secret\n    items: {}\n      # slack-token:\n    # -- Annotations to be added to the notifications secret\n    annotations: {}\n\n  # -- Configures notification services\n  notifiers: {}\n    # service.slack: |\n    #   token: $slack-token\n\n  # -- Notification templates\n  templates: {}\n    # template.my-purple-template: |\n    #   message: |\n    #     Rollout {{.rollout.metadata.name}} has purple image\n    #   slack:\n    #       attachments: |\n    #           [{\n    #             \"title\": \"{{ .rollout.metadata.name}}\",\n    #             \"color\": \"#800080\"\n    #           }]\n\n  # -- The trigger defines the condition when the notification should be sent\n  triggers: {}\n    # trigger.on-purple: |\n    #   - send: [my-purple-template]\n    #     when: rollout.spec.template.spec.containers[0].image == 'argoproj/rollouts-demo:purple'\n\n  # -- The subscriptions define the subscriptions to the triggers in a general way for all rollouts\n  subscriptions: []\n    # - recipients:\n    #   - slack:\u003cchannel\u003e\n    #   triggers:\n    #   - on-rollout-completed\n    #   - on-rollout-aborted\n\n"
+            ],
+            "verify": false,
+            "version": "2.38.0",
+            "wait": true,
+            "wait_for_jobs": false
+          },
+          "sensitive_attributes": [],
+          "private": "eyJzY2hlbWFfdmVyc2lvbiI6IjEifQ==",
+          "dependencies": [
+            "aws_eks_cluster.eks_cluster",
+            "aws_iam_role.eks_cluster_role",
+            "aws_iam_role_policy_attachment.eks-AmazonEKSClusterPolicy",
+            "aws_iam_role_policy_attachment.eks-AmazonEKSVPCResourceController",
+            "data.aws_availability_zones.available",
+            "data.aws_eks_cluster_auth.eks_cluster_auth",
+            "kubernetes_namespace.argocd_rollout_ns",
             "module.vpc.aws_subnet.public",
             "module.vpc.aws_vpc.this",
             "module.vpc.aws_vpc_ipv4_cidr_block_association.this"
@@ -2699,10 +2744,10 @@
             "id": "eks-dev-cluster-role-binding",
             "metadata": [
               {
-                "annotations": null,
+                "annotations": {},
                 "generate_name": "",
                 "generation": 0,
-                "labels": null,
+                "labels": {},
                 "name": "eks-dev-cluster-role-binding",
                 "resource_version": "992",
                 "uid": "f59b43eb-b7e6-4e08-99e0-b1b681cd4b29"
@@ -2753,10 +2798,10 @@
             "id": "eks-readonly-cluster-role-binding",
             "metadata": [
               {
-                "annotations": null,
+                "annotations": {},
                 "generate_name": "",
                 "generation": 0,
-                "labels": null,
+                "labels": {},
                 "name": "eks-readonly-cluster-role-binding",
                 "resource_version": "991",
                 "uid": "78b15372-64e3-41fb-bb7b-2fc7bb2d1d6d"
@@ -2808,10 +2853,10 @@
             "id": "eks-dev-cluster-role",
             "metadata": [
               {
-                "annotations": null,
+                "annotations": {},
                 "generate_name": "",
                 "generation": 0,
-                "labels": null,
+                "labels": {},
                 "name": "eks-dev-cluster-role",
                 "resource_version": "977",
                 "uid": "d68cc286-7afa-46d4-a226-eadb21db4d8d"
@@ -2822,8 +2867,8 @@
                 "api_groups": [
                   ""
                 ],
-                "non_resource_urls": null,
-                "resource_names": null,
+                "non_resource_urls": [],
+                "resource_names": [],
                 "resources": [
                   "namespaces",
                   "pods",
@@ -2840,8 +2885,8 @@
                 "api_groups": [
                   "apps"
                 ],
-                "non_resource_urls": null,
-                "resource_names": null,
+                "non_resource_urls": [],
+                "resource_names": [],
                 "resources": [
                   "replicasets",
                   "statefulsets",
@@ -2857,8 +2902,8 @@
                 "api_groups": [
                   "batch"
                 ],
-                "non_resource_urls": null,
-                "resource_names": null,
+                "non_resource_urls": [],
+                "resource_names": [],
                 "resources": [
                   "jobs"
                 ],
@@ -2898,10 +2943,10 @@
             "id": "eks-readonly-cluster-role",
             "metadata": [
               {
-                "annotations": null,
+                "annotations": {},
                 "generate_name": "",
                 "generation": 0,
-                "labels": null,
+                "labels": {},
                 "name": "eks-readonly-cluster-role",
                 "resource_version": "978",
                 "uid": "79077806-4ec1-4ff6-ba37-5bcd6515d335"
@@ -2912,8 +2957,8 @@
                 "api_groups": [
                   ""
                 ],
-                "non_resource_urls": null,
-                "resource_names": null,
+                "non_resource_urls": [],
+                "resource_names": [],
                 "resources": [
                   "namespaces",
                   "pods",
@@ -2930,8 +2975,8 @@
                 "api_groups": [
                   "apps"
                 ],
-                "non_resource_urls": null,
-                "resource_names": null,
+                "non_resource_urls": [],
+                "resource_names": [],
                 "resources": [
                   "replicasets",
                   "statefulsets",
@@ -2947,8 +2992,8 @@
                 "api_groups": [
                   "batch"
                 ],
-                "non_resource_urls": null,
-                "resource_names": null,
+                "non_resource_urls": [],
+                "resource_names": [],
                 "resources": [
                   "jobs"
                 ],
@@ -2984,7 +3029,7 @@
         {
           "schema_version": 0,
           "attributes": {
-            "binary_data": null,
+            "binary_data": {},
             "data": {
               "mapRoles": "- \"groups\":\n  - \"system:bootstrappers\"\n  - \"system:nodes\"\n  \"rolearn\": \"arn:aws:iam::905418291613:role/dev-eks-nodegroup-role\"\n  \"username\": \"system:node:{{EC2PrivateDNSName}}\"\n- \"groups\":\n  - \"system:masters\"\n  \"rolearn\": \"arn:aws:iam::905418291613:role/eks-admin-role\"\n  \"username\": \"eks-admin\"\n- \"groups\":\n  - \"eks-readonly-group\"\n  \"rolearn\": \"arn:aws:iam::905418291613:role/eks-readonly-role\"\n  \"username\": \"eks-readonly\"\n- \"groups\":\n  - \"eks-dev-group\"\n  \"rolearn\": \"arn:aws:iam::905418291613:role/eks-dev-role\"\n  \"username\": \"eks-dev\"\n"
             },
@@ -2992,10 +3037,10 @@
             "immutable": false,
             "metadata": [
               {
-                "annotations": null,
+                "annotations": {},
                 "generate_name": "",
                 "generation": 0,
-                "labels": null,
+                "labels": {},
                 "name": "aws-auth",
                 "namespace": "kube-system",
                 "resource_version": "995",
@@ -3043,10 +3088,10 @@
             "id": "argocd",
             "metadata": [
               {
-                "annotations": null,
+                "annotations": {},
                 "generate_name": "",
                 "generation": 0,
-                "labels": null,
+                "labels": {},
                 "name": "argocd",
                 "resource_version": "979",
                 "uid": "f82b6cec-6bfe-4ef9-b7a6-53a86f1a9007"
@@ -3083,10 +3128,10 @@
             "id": "argocd-rollout",
             "metadata": [
               {
-                "annotations": null,
+                "annotations": {},
                 "generate_name": "",
                 "generation": 0,
-                "labels": null,
+                "labels": {},
                 "name": "argocd-rollout",
                 "resource_version": "982",
                 "uid": "05ecbad6-28dc-4af5-abd6-decb340f8ea2"
@@ -3123,10 +3168,10 @@
             "id": "dev",
             "metadata": [
               {
-                "annotations": null,
+                "annotations": {},
                 "generate_name": "",
                 "generation": 0,
-                "labels": null,
+                "labels": {},
                 "name": "dev",
                 "resource_version": "980",
                 "uid": "fbaf6c1a-e865-473d-be6d-763f7a2c69b0"
@@ -3163,10 +3208,10 @@
             "id": "kong",
             "metadata": [
               {
-                "annotations": null,
+                "annotations": {},
                 "generate_name": "",
                 "generation": 0,
-                "labels": null,
+                "labels": {},
                 "name": "kong",
                 "resource_version": "981",
                 "uid": "2a70ea86-85e1-4772-b8af-b374370ce973"
@@ -3203,10 +3248,10 @@
             "id": "dev/eksdev-rolebinding",
             "metadata": [
               {
-                "annotations": null,
+                "annotations": {},
                 "generate_name": "",
                 "generation": 0,
-                "labels": null,
+                "labels": {},
                 "name": "eksdev-rolebinding",
                 "namespace": "dev",
                 "resource_version": "994",
@@ -3259,10 +3304,10 @@
             "id": "dev/eksdev-role",
             "metadata": [
               {
-                "annotations": null,
+                "annotations": {},
                 "generate_name": "",
                 "generation": 0,
-                "labels": null,
+                "labels": {},
                 "name": "eksdev-role",
                 "namespace": "dev",
                 "resource_version": "993",
@@ -3276,7 +3321,7 @@
                   "apps",
                   "extensions"
                 ],
-                "resource_names": null,
+                "resource_names": [],
                 "resources": [
                   "*"
                 ],
@@ -3288,7 +3333,7 @@
                 "api_groups": [
                   "batch"
                 ],
-                "resource_names": null,
+                "resource_names": [],
                 "resources": [
                   "cronjobs",
                   "jobs"
@@ -3359,8 +3404,8 @@
                 "action": "allow",
                 "cidr_block": "",
                 "from_port": 0,
-                "icmp_code": null,
-                "icmp_type": null,
+                "icmp_code": 0,
+                "icmp_type": 0,
                 "ipv6_cidr_block": "::/0",
                 "protocol": "-1",
                 "rule_no": 101,
@@ -3370,8 +3415,8 @@
                 "action": "allow",
                 "cidr_block": "0.0.0.0/0",
                 "from_port": 0,
-                "icmp_code": null,
-                "icmp_type": null,
+                "icmp_code": 0,
+                "icmp_type": 0,
                 "ipv6_cidr_block": "",
                 "protocol": "-1",
                 "rule_no": 100,
@@ -3384,8 +3429,8 @@
                 "action": "allow",
                 "cidr_block": "",
                 "from_port": 0,
-                "icmp_code": null,
-                "icmp_type": null,
+                "icmp_code": 0,
+                "icmp_type": 0,
                 "ipv6_cidr_block": "::/0",
                 "protocol": "-1",
                 "rule_no": 101,
@@ -3395,8 +3440,8 @@
                 "action": "allow",
                 "cidr_block": "0.0.0.0/0",
                 "from_port": 0,
-                "icmp_code": null,
-                "icmp_type": null,
+                "icmp_code": 0,
+                "icmp_type": 0,
                 "ipv6_cidr_block": "",
                 "protocol": "-1",
                 "rule_no": 100,
@@ -3443,7 +3488,7 @@
             "default_route_table_id": "rtb-0af4dfcbeb35b8fc7",
             "id": "rtb-0af4dfcbeb35b8fc7",
             "owner_id": "905418291613",
-            "propagating_vgws": null,
+            "propagating_vgws": [],
             "route": [],
             "tags": {
               "Environment": "dev",
@@ -3520,7 +3565,7 @@
             "allocation_id": "eipalloc-090762d6a8b2a6e95",
             "arn": "arn:aws:ec2:us-east-1:905418291613:elastic-ip/eipalloc-090762d6a8b2a6e95",
             "associate_with_private_ip": null,
-            "association_id": "",
+            "association_id": "eipassoc-07bbcca718b3b919a",
             "carrier_ip": "",
             "customer_owned_ip": "",
             "customer_owned_ipv4_pool": "",
@@ -3529,9 +3574,9 @@
             "instance": "",
             "ipam_pool_id": null,
             "network_border_group": "us-east-1",
-            "network_interface": "",
-            "private_dns": null,
-            "private_ip": "",
+            "network_interface": "eni-08d0d85727a5534e8",
+            "private_dns": "ip-10-0-1-159.ec2.internal",
+            "private_ip": "10.0.1.159",
             "ptr_record": "",
             "public_dns": "ec2-3-219-224-152.compute-1.amazonaws.com",
             "public_ip": "3.219.224.152",
@@ -3610,7 +3655,7 @@
             "network_interface_id": "eni-08d0d85727a5534e8",
             "private_ip": "10.0.1.159",
             "public_ip": "3.219.224.152",
-            "secondary_allocation_ids": null,
+            "secondary_allocation_ids": [],
             "secondary_private_ip_address_count": 0,
             "secondary_private_ip_addresses": [],
             "subnet_id": "subnet-089c4360de112d825",
@@ -3750,7 +3795,23 @@
             "id": "rtb-0fd9a529bf5727fd5",
             "owner_id": "905418291613",
             "propagating_vgws": [],
-            "route": [],
+            "route": [
+              {
+                "carrier_gateway_id": "",
+                "cidr_block": "0.0.0.0/0",
+                "core_network_arn": "",
+                "destination_prefix_list_id": "",
+                "egress_only_gateway_id": "",
+                "gateway_id": "",
+                "ipv6_cidr_block": "",
+                "local_gateway_id": "",
+                "nat_gateway_id": "nat-03207e3190b737a48",
+                "network_interface_id": "",
+                "transit_gateway_id": "",
+                "vpc_endpoint_id": "",
+                "vpc_peering_connection_id": ""
+              }
+            ],
             "tags": {
               "Environment": "dev",
               "Name": "dev-vpc-private"
@@ -3787,7 +3848,23 @@
             "id": "rtb-0ff69f77bee200b8a",
             "owner_id": "905418291613",
             "propagating_vgws": [],
-            "route": [],
+            "route": [
+              {
+                "carrier_gateway_id": "",
+                "cidr_block": "0.0.0.0/0",
+                "core_network_arn": "",
+                "destination_prefix_list_id": "",
+                "egress_only_gateway_id": "",
+                "gateway_id": "igw-09c0d725dc3fae3fe",
+                "ipv6_cidr_block": "",
+                "local_gateway_id": "",
+                "nat_gateway_id": "",
+                "network_interface_id": "",
+                "transit_gateway_id": "",
+                "vpc_endpoint_id": "",
+                "vpc_peering_connection_id": ""
+              }
+            ],
             "tags": {
               "Environment": "dev",
               "Name": "dev-vpc-public"

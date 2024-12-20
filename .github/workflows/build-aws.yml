@@ -96,7 +96,7 @@ jobs:
         run: kubectl get service/prometheus-operated -n monitoring -o yaml > prometheus-operated.yaml
 
       - name: getting prometheus service file to edit config
-        run: sed -i '' -e '/clusterIP":"' None/d' -e '/clusterIPs":"'/,+1d' -e 's/type":"' ClusterIP/type":"' LoadBalancer/' prometheus-operated.yaml
+        run: sed -i '' -e '/clusterIP'":"' None/d' -e '/clusterIPs'":"'/,+1d' -e 's/type'":"' ClusterIP/type'":"' LoadBalancer/' prometheus-operated.yaml
   
       - name: deleting available prometheus svc
         run: kubectl delete service/prometheus-operated -n monitoring
