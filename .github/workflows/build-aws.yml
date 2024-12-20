@@ -90,10 +90,10 @@ jobs:
         run: kubectl delete service/alertmanager-operated -n monitoring
 
       - name: applying new alermanager svc
-        run: kubectl apply -f prometheus-operated.yaml
+        run: kubectl apply -f alertmanager-operated.yaml
 
       - name: getting prometheus service file to edit config
-        run: kubectl get service/alertmanager-operated -n monitoring -o yaml > alertmanager-operated.yaml
+        run: kubectl get service/prometheus-operated -n monitoring -o yaml > prometheus-operated.yaml
 
       - name: getting prometheus service file to edit config
         run: sed -i '' -e '/clusterIP":"' None/d' -e '/clusterIPs":"'/,+1d' -e 's/type":"' ClusterIP/type":"' LoadBalancer/' prometheus-operated.yaml
@@ -102,10 +102,10 @@ jobs:
         run: kubectl delete service/prometheus-operated -n monitoring
 
       - name: applying new prometheus svc
-        run: kubectl apply -f alertmanager-operated.yaml
+        run: kubectl apply -f prometheus-operated.yaml
 
       - name: converting grafana from ClusterIP to LoadBalancer
-        run: kubectl patch svc prometheus-kube-prometheus-prometheus -n prometheus -p '{"spec"'":"' {"type"'":"' "LoadBalancer"}}'
+        run: kubectl patch svc monitoring-grafana -n monitoring -p '{"spec"'":"' {"type"'":"' "LoadBalancer"}}'
       
       - name: Creating Certificate for domain name
         run: |
