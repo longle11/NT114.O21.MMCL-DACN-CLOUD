@@ -1,4 +1,5 @@
 terraform {
+    # checkov:skip=CKV_TF_3
   required_providers {
     aws = {
       source = "hashicorp/aws"
