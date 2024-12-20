@@ -116,14 +116,17 @@ jobs:
           fi
       
       - name: creating new certmanager
-        run: kubectl apply -f ./manifests/cert-manager.yaml
+        run: kubectl apply -f ./manifests/cert-manager.yaml || true
+        working-directory: ./
 
       - name: getting cert ssl
-        run: kubectl apply -f ./manifests/certificate-ssl.yaml
-
+        run: kubectl apply -f ./manifests/certificate-ssl.yaml || true
+        working-directory: ./
 
       - name: adding argocd config for monitoring repo
-        run: kubectl apply -f ./manifests/argocd-config.yaml
+        run: kubectl apply -f ./manifests/argocd-config.yaml || true
+        working-directory: ./
 
       - name: creating ingress controller
-        run: kubectl apply -f ./manifests/application-ingress-kong.yaml
+        run: kubectl apply -f ./manifests/application-ingress-kong.yaml || true
+        working-directory: ./
