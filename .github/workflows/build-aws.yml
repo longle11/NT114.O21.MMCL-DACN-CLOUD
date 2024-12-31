@@ -41,7 +41,7 @@ jobs:
         uses: keithweaver/aws-s3-github-action@v1.0.0
         with:
           command: sync
-          source: s3://${{ secrets.S3_BUCKET }}/build/terraform.tfstate
+          source: s3://storage-state-file/build/terraform.tfstate
           destination: ./
           aws_access_key_id: ${{ secrets.SC_AWS_ACCESS_KEY_ID }}
           aws_secret_access_key: ${{ secrets.SC_AWS_SECRET_ACCESS_KEY }}
