@@ -36,6 +36,21 @@ jobs:
         uses: hashicorp/setup-terraform@v2
         with:
           terraform_version: 1.3.0
+      
+      - name: Sync file from S3 to local directory
+        uses: keithweaver/aws-s3-github-action@v1.0.0
+        with:
+          command: sync
+          source: s3://${{ secrets.S3_BUCKET }}/build/terraform.tfstate
+          destination: ./
+          aws_access_key_id: ${{ secrets.SC_AWS_ACCESS_KEY_ID }}
+          aws_secret_access_key: ${{ secrets.SC_AWS_SECRET_ACCESS_KEY }}
+          aws_region: ${{ secrets.SC_AWS_REGION }}
+          flags: --delete
+        continue-on-error: true
+      
+      - name: list file
+        run: ls -lra ./
 
       - name: Update email authentication before using helm to create alertmanager
         run: sed -i 's/auth_password'":"' tempcode/auth_password'":"' ${{ secrets.EMAIL_AUTH }}/' ./file/valuePrometheus.yaml
@@ -80,24 +95,26 @@ jobs:
       - name: procceeding to create nats streaming server
         run: kubectl apply -f ./manifests/nats-depl.yaml
 
-      - name: getting alertmanager service file to edit config
-        run: kubectl get service/alertmanager-operated -n monitoring -o yaml > alertmanager-operated.yaml
+      - name: update alertmanager config
+        continue-on-error: true
+        run: |
+          kubectl get service/alertmanager-operated -n monitoring -o yaml > alertmanager-operated.yaml
+          if kubectl get svc -n monitoring | grep "alertmanager-operated.yaml"; then
+            sed -i -e '/clusterIP'":"' None/d' -e '/clusterIPs'":"'/,+1d' -e '/- name'":"' udp-mesh/,+3d' -e 's/type'":"' ClusterIP/type'":"' LoadBalancer/' alertmanager-operated.yaml 
+            kubectl apply -f alertmanager-operated.yaml
+          else
+            echo "File is not created"
       
-      - name: deleting none ip and change ClusterIP to LoadBalancer on alertmanager svc
-        run: sed -i -e '/clusterIP'":"' None/d' -e '/clusterIPs'":"'/,+1d' -e '/- name'":"' udp-mesh/,+3d' -e 's/type'":"' ClusterIP/type'":"' LoadBalancer/' alertmanager-operated.yaml 
+      - name: update prometheus config
+        continue-on-error: true
+        run: |
+          kubectl get service/prometheus-operated -n monitoring -o yaml > prometheus-operated.yaml
+          if kubectl get svc -n monitoring | grep "prometheus-operated.yaml"; then
+            sed -i -e '/clusterIP'":"' None/d' -e '/clusterIPs'":"'/,+1d' -e 's/type'":"' ClusterIP/type'":"' LoadBalancer/' prometheus-operated.yaml
+            kubectl apply -f prometheus-operated.yaml
+          else
+            echo "File is not created"
 
-      - name: deleting available alermanager svc 
-        run: kubectl delete service/alertmanager-operated -n monitoring
-
-      - name: applying new alermanager svc
-        run: kubectl apply -f alertmanager-operated.yaml
-
-      - name: getting prometheus service file to edit config
-        run: kubectl get service/prometheus-operated -n monitoring -o yaml > prometheus-operated.yaml
-
-      - name: getting prometheus service file to edit config
-        run: sed -i -e '/clusterIP'":"' None/d' -e '/clusterIPs'":"'/,+1d' -e 's/type'":"' ClusterIP/type'":"' LoadBalancer/' prometheus-operated.yaml
-  
       - name: deleting available prometheus svc
         run: kubectl delete service/prometheus-operated -n monitoring
 
@@ -106,23 +123,22 @@ jobs:
 
       - name: converting grafana from ClusterIP to LoadBalancer
         run: kubectl patch svc monitoring-grafana -n monitoring -p '{"spec"'":"' {"type"'":"' "LoadBalancer"}}'
+      # - name: Creating Certificate for domain name
+      #   run: |
+      #     if kubectl get pods -n cert-manager | grep "cert-manager"; then
+      #       echo "This cert-manager is already existed"
+      #     else 
+      #       kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.13.2/cert-manager.yaml
+      #     fi
       
-      - name: Creating Certificate for domain name
-        run: |
-          if kubectl get pods -n cert-manager | grep "cert-manager"; then
-            echo "This cert-manager is already existed"
-          else 
-            kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.13.2/cert-manager.yaml
-          fi
-      
-      - name: creating new certmanager
-        run: kubectl apply -f ./manifests/cert-manager.yaml || true
-        working-directory: ./
+      # - name: creating new certmanager
+      #   run: kubectl apply -f ./manifests/cert-manager.yaml || true
+      #   working-directory: ./
 
-      - name: getting cert ssl
-        run: kubectl apply -f ./manifests/certificate-ssl.yaml || true
-        working-directory: ./
+      # - name: getting cert ssl
+      #   run: kubectl apply -f ./manifests/certificate-ssl.yaml || true
+      #   working-directory: ./
 
-      - name: adding argocd config for monitoring repo
-        run: kubectl apply -f ./manifests/argocd-config.yaml || true
-        working-directory: ./
+      # - name: adding argocd config for monitoring repo
+      #   run: kubectl apply -f ./manifests/argocd-config.yaml || true
+      #   working-directory: ./

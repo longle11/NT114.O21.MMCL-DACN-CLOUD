@@ -1,0 +1,36 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"v1","kind":"Service","metadata":{"annotations":{},"creationTimestamp":"2024-12-29T08:00:28Z","labels":{"managed-by":"prometheus-operator","operated-prometheus":"true"},"name":"prometheus-operated","namespace":"monitoring","ownerReferences":[{"apiVersion":"monitoring.coreos.com/v1","kind":"Prometheus","name":"monitoring-kube-prometheus-prometheus","uid":"f3b5928b-d8f3-4cf9-bfdd-c664f176ed48"}],"resourceVersion":"2245","uid":"94d8c66f-d332-4e6c-a207-3ab132720cc3"},"spec":{"internalTrafficPolicy":"Cluster","ipFamilies":["IPv4"],"ipFamilyPolicy":"SingleStack","ports":[{"name":"http-web","port":9090,"protocol":"TCP","targetPort":"http-web"}],"selector":{"app.kubernetes.io/name":"prometheus"},"sessionAffinity":"None","type":"LoadBalancer"},"status":{"loadBalancer":{}}}
+  creationTimestamp: "2024-12-29T08:05:48Z"
+  labels:
+    managed-by: prometheus-operator
+    operated-prometheus: "true"
+  name: prometheus-operated
+  namespace: monitoring
+  ownerReferences:
+  - apiVersion: monitoring.coreos.com/v1
+    kind: Prometheus
+    name: monitoring-kube-prometheus-prometheus
+    uid: f3b5928b-d8f3-4cf9-bfdd-c664f176ed48
+  resourceVersion: "4397"
+  uid: daf5bd11-f7b5-4222-b61b-e2d53338d529
+spec:
+  clusterIP: 172.16.148.8
+  internalTrafficPolicy: Cluster
+  ipFamilies:
+  - IPv4
+  ipFamilyPolicy: SingleStack
+  ports:
+  - name: http-web
+    port: 9090
+    protocol: TCP
+    targetPort: http-web
+  selector:
+    app.kubernetes.io/name: prometheus
+  sessionAffinity: None
+  type: LoadBalancer
+status:
+  loadBalancer: {}

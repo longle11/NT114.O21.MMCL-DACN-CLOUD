@@ -44,19 +44,19 @@ resource "aws_route53_zone" "route53_domain_name" {
     }
 }
 
-resource "aws_route53_record" "kong-proxy" {
-    zone_id = aws_route53_zone.route53_domain_name.zone_id
-    name    = "www.${var.domain_name}"
-    type    = "A"
+# resource "aws_route53_record" "kong-proxy" {
+#     zone_id = aws_route53_zone.route53_domain_name.zone_id
+#     name    = "www.${var.domain_name}"
+#     type    = "A"
 
-    alias {
-        name                   = data.kubernetes_service_v1.proxy_kong_ingress_controller.status[0].load_balancer[0].ingress[0].hostname
-        zone_id                = data.aws_elb_hosted_zone_id.elb_hosted_zone.id //lookup id here https://docs.aws.amazon.com/general/latest/gr/elb.html
-        evaluate_target_health = true
-    }
+#     alias {
+#         name                   = data.kubernetes_service_v1.proxy_kong_ingress_controller.status[0].load_balancer[0].ingress[0].hostname
+#         zone_id                = data.aws_elb_hosted_zone_id.elb_hosted_zone.id //lookup id here https://docs.aws.amazon.com/general/latest/gr/elb.html
+#         evaluate_target_health = true
+#     }
 
-    depends_on = [ helm_release.kong-ingress-controller ]
-}
+#     depends_on = [ helm_release.kong-ingress-controller ]
+# }
 
 resource "aws_route53_record" "kong-admin" {
     zone_id = aws_route53_zone.route53_domain_name.zone_id

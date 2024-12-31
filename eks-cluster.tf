@@ -78,9 +78,9 @@ resource "aws_eks_node_group" "eks_nodegroup_private" {
   }
 
   scaling_config {
-    desired_size = 1
-    min_size     = 1 
-    max_size     = 4
+    desired_size = 2
+    min_size     = 1
+    max_size     = 5
   }
 
   # Desired max percentage of unavailable worker nodes during node group update.

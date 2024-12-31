@@ -10,8 +10,8 @@ spec:
   ingressClassName: kong
   tls:
     - hosts:
-        - www.khoaluantotnghiep.click 
-      secretName: ca-ingress-ssl
+        - www.khoaluantotnghiep.click
+      secretName: ingress-ssl-certificate
   rules:
     - host: www.khoaluantotnghiep.click 
       http:
